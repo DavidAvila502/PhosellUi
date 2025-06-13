@@ -1,12 +1,18 @@
 import { useLogin } from "../hooks/useLogin";
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import type { LoginDto } from "../dtos/authDtos";
+import { ROUTES } from "../../../app/constants/routes";
+import { useNavigate } from "react-router-dom";
+import { ROLES } from "../../../app/constants/roles";
 
 export function Login() {
+   const navigate = useNavigate();
+
    const [credentials, setCredentials] = useState<LoginDto>({
       email: "",
       password: "",
    });
+
    const { data, isLoading, error, login } = useLogin();
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,10 +23,15 @@ export function Login() {
       }));
    };
 
-   const handleSubmit = (e: React.FormEvent) => {
+   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       login(credentials);
    };
+
+   useEffect(() => {
+      if (data?.role == ROLES.CLIENT)
+         navigate(ROUTES.CLIENT.ROOT, { replace: true });
+   }, [data, navigate]);
 
    function status() {
       if (isLoading) {
