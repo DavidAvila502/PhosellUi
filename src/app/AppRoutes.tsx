@@ -3,6 +3,10 @@ import { ROUTES } from "./constants/routes";
 import { Home } from "../features/home/pages/Home";
 import { Login } from "../features/auth/pages/Login";
 import { Register } from "../features/auth/pages/Register";
+import { RequireAuth } from "../features/auth/components/RequireAuth";
+import { ROLES } from "./constants/roles";
+import { Client } from "../features/client/pages/Client";
+import type { Roles } from "../features/auth/types/roles";
 
 export function AppRoutes() {
    return (
@@ -16,6 +20,12 @@ export function AppRoutes() {
                path={ROUTES.AUTH.REGISTER.substring(1)}
                element={<Register />}
             />
+         </Route>
+
+         <Route
+            element={<RequireAuth allowedRoles={[ROLES.CLIENT] as Roles[]} />}
+         >
+            <Route path={ROUTES.CLIENT.ROOT} element={<Client />} />
          </Route>
 
          <Route path="*" element={<Navigate to={ROUTES.HOME} />} />

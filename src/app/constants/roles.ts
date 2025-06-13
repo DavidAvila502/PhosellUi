@@ -1,0 +1,5 @@
+export const ROLES = {
+   CLIENT: "CLIENT",
+   PHOTOGRAPHER: "PHOTOGRAPHER",
+   ADMIN: "ADMIN",
+};

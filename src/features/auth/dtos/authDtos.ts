@@ -5,6 +5,7 @@ export interface LoginDto {
 
 export interface LoginResponseDto {
    id: string;
+   email: string;
    fullName: string;
    role: string;
    jwtToken: string;

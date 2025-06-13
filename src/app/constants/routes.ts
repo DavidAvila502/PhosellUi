@@ -5,4 +5,7 @@ export const ROUTES = {
       LOGIN: "/login",
       REGISTER: "/register",
    },
+   CLIENT: {
+      ROOT: "/client",
+   },
 };
