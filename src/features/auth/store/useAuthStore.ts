@@ -10,12 +10,12 @@ interface AuthState {
    jwtToken: string | null;
    expiresIn: number | null;
    setAuth: (data: {
-      id: string;
-      fullName: string;
-      email: string;
+      id: string | null;
+      fullName: string | null;
+      email: string | null;
       role: AuthState["role"];
-      jwtToken: string;
-      expiresIn: number;
+      jwtToken: string | null;
+      expiresIn: number | null;
    }) => void;
    clearAuth: () => void;
 }
