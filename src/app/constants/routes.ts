@@ -7,5 +7,6 @@ export const ROUTES = {
    },
    CLIENT: {
       ROOT: "/client",
+      CLIENTDASHBOARD: "/dashboard",
    },
 };

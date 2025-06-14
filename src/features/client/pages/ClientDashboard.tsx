@@ -3,7 +3,7 @@ import { useLogout } from "../../auth/hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../app/constants/routes";
 
-export function Client() {
+export function ClientDashboard() {
    const navigate = useNavigate();
 
    const { succsess, isLoading, error, logout } = useLogout();
