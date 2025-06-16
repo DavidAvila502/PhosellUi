@@ -6,38 +6,32 @@ interface ClasicButtonProps {
    color?: string;
    func?: (param?: any) => any;
 }
-
-const ClasicButton = ({
+const ClasicButton: React.FC<ClasicButtonProps> = ({
    text,
-   style,
+   style = "",
    color,
-   isLoading,
+   isLoading = false,
    func,
-   type,
-}: ClasicButtonProps) => {
-   let defaultStyles: string = "cursor-pointer text-white py-[9px]";
+   type = "button",
+}) => {
+   const base =
+      "flex items-center justify-center gap-2 px-4 py-2 text-white rounded";
 
-   function getColor() {
-      if (isLoading) {
-         return "bg-gray-500";
-      }
-
-      if (color) {
-         return color;
-      }
-
-      return "bg-green-500";
-   }
+   const bgColor = isLoading ? "bg-gray-500" : color ? color : "bg-green-500";
 
    return (
-      <input
-         onClick={
-            func && !isLoading && type == "button" ? () => func() : undefined
-         }
+      <button
          type={type}
-         value={text}
-         className={`${defaultStyles} ${style} ${getColor()}`}
-      />
+         onClick={!isLoading && func ? func : undefined}
+         disabled={isLoading}
+         className={`${base} ${bgColor} ${style}`}
+      >
+         {isLoading && (
+            <span className="loading loading-spinner loading-sm text-white"></span>
+         )}
+
+         <span>{isLoading ? "Cargando..." : text}</span>
+      </button>
    );
 };
 export default ClasicButton;
