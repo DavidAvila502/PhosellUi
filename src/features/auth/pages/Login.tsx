@@ -4,6 +4,7 @@ import type { LoginDto } from "../dtos/authDtos";
 import { ROUTES } from "../../../app/constants/routes";
 import { useNavigate } from "react-router-dom";
 import { ROLES } from "../../../app/constants/roles";
+import ClasicButton from "../../../shared/components/ClasicButton";
 
 export function Login() {
    const navigate = useNavigate();
@@ -13,7 +14,7 @@ export function Login() {
       password: "",
    });
 
-   const { data, isLoading, error, login } = useLogin();
+   const { data, isLoading, login } = useLogin();
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -25,7 +26,10 @@ export function Login() {
 
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-      login(credentials);
+
+      if (!isLoading) {
+         login(credentials);
+      }
    };
 
    useEffect(() => {
@@ -33,67 +37,60 @@ export function Login() {
          navigate(ROUTES.CLIENT.ROOT, { replace: true });
    }, [data, navigate]);
 
-   function status() {
-      if (isLoading) {
-         return <>LOADING...</>;
-      }
-      if (error) {
-         return <>Error: {error.message}</>;
-      }
-
-      if (data) {
-         console.log(data);
-         return <>SUCCESS</>;
-      }
-
-      return <>Not status yet</>;
-   }
-
    return (
-      <div className="flex flex-col items-center justify-center">
-         <h1>Login</h1>
+      <div className="flex flex-col items-center justify-center min-h-[100vh]">
+         <div
+            className="bg-white flex items-center rounded-[20px] min-h-[300px] px-[40px] py-[60px]
+                        justify-center flex-col border-solid border-2 border-gray-200 shadow-2xl"
+         >
+            <form
+               onSubmit={handleSubmit}
+               className="flex flex-col gap-9 w-[400px]"
+            >
+               <p className="text-blue-600 font-bold text-2xl">
+                  Iniciar sesión
+               </p>
 
-         <div className="min-w-[40%] min-h-[300px] bg-blue-500 flex items-center justify-center flex-col">
-            <div>
-               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                  <label className="text-white text-2xl">
-                     email:
-                     <input
-                        id="email"
-                        name="email"
-                        type="text"
-                        placeholder="email"
-                        value={credentials.email}
-                        onChange={handleChange}
-                        required
-                        className="ml-[10px]"
-                     />
+               <div className="flex flex-col gap-2 items-start">
+                  <label htmlFor="email" className="text-black text-xl">
+                     Email:
                   </label>
-
-                  <label className="text-white text-2xl">
-                     password:
-                     <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        placeholder="password"
-                        value={credentials.password}
-                        onChange={handleChange}
-                        required
-                        className="ml-[10px]"
-                     />
-                  </label>
-
-                  <button type="submit" className="bg-green-500">
-                     Enviar
-                  </button>
-               </form>
-
-               <div>
-                  <p>Estado:</p>
-                  <p>{status()}</p>
+                  <input
+                     id="email"
+                     name="email"
+                     type="email"
+                     value={credentials.email}
+                     onChange={handleChange}
+                     required
+                     className="text-gray-500 py-[2px] pl-[5px] text-xl border-solid border-1 border-gray-400
+                              rounded-[5px] w-full focus:outline-none focus:border-blue-600"
+                  />
                </div>
-            </div>
+
+               <div className="flex flex-col gap-2 items-start">
+                  <label htmlFor="password" className="text-black text-xl">
+                     Password:
+                  </label>
+                  <input
+                     id="password"
+                     name="password"
+                     type="password"
+                     value={credentials.password}
+                     onChange={handleChange}
+                     required
+                     className="text-gray-500 py-[2px] pl-[5px] text-xl border-solid border-1 border-gray-400
+                              rounded-[5px] w-full focus:outline-none focus:border-blue-600"
+                  />
+               </div>
+
+               <ClasicButton
+                  text="Enviar"
+                  color="bg-blue-600"
+                  type="submit"
+                  style="rounded-[10px]"
+                  isLoading={isLoading}
+               />
+            </form>
          </div>
       </div>
    );
