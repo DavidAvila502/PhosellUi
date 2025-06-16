@@ -1,12 +1,12 @@
-interface ClasicButtonProps {
+interface ClassicButtonProps {
    text: string;
    type: "submit" | "button";
    style?: string;
    isLoading?: boolean;
    color?: string;
-   func?: (param?: any) => any;
+   func?: <Args extends any[], Ret>(...args: Args) => Ret;
 }
-const ClasicButton: React.FC<ClasicButtonProps> = ({
+const ClassicButton: React.FC<ClassicButtonProps> = ({
    text,
    style = "",
    color,
@@ -15,7 +15,7 @@ const ClasicButton: React.FC<ClasicButtonProps> = ({
    type = "button",
 }) => {
    const base =
-      "flex items-center justify-center gap-2 px-4 py-2 text-white rounded";
+      "flex items-center justify-center gap-2 px-4 py-2 text-white rounded cursor-pointer";
 
    const bgColor = isLoading ? "bg-gray-500" : color ? color : "bg-green-500";
 
@@ -34,4 +34,4 @@ const ClasicButton: React.FC<ClasicButtonProps> = ({
       </button>
    );
 };
-export default ClasicButton;
+export default ClassicButton;

@@ -4,7 +4,8 @@ import type { LoginDto } from "../dtos/authDtos";
 import { ROUTES } from "../../../app/constants/routes";
 import { useNavigate } from "react-router-dom";
 import { ROLES } from "../../../app/constants/roles";
-import ClasicButton from "../../../shared/components/ClasicButton";
+import ClassicButton from "../../../shared/components/ClassicButton";
+import ClassicLabelField from "../../../shared/components/ClassicLabelField";
 
 export function Login() {
    const navigate = useNavigate();
@@ -41,49 +42,43 @@ export function Login() {
       <div className="flex flex-col items-center justify-center min-h-[100vh]">
          <div
             className="bg-white flex items-center rounded-[20px] min-h-[300px] px-[40px] py-[60px]
-                        justify-center flex-col border-solid border-2 border-gray-200 shadow-2xl"
+                        justify-center flex-col border-solid border-2 border-gray-200 shadow-2xl
+                        w-[300px] max-[400px]-w-[200px]: sm:w-[400px]
+                        "
          >
             <form
                onSubmit={handleSubmit}
-               className="flex flex-col gap-9 w-[400px]"
+               className="flex flex-col gap-9 w-full"
             >
                <p className="text-blue-600 font-bold text-2xl">
                   Iniciar sesión
                </p>
 
                <div className="flex flex-col gap-2 items-start">
-                  <label htmlFor="email" className="text-black text-xl">
-                     Email:
-                  </label>
-                  <input
-                     id="email"
+                  <ClassicLabelField
+                     id="emial"
                      name="email"
                      type="email"
                      value={credentials.email}
+                     textLabel="Email"
                      onChange={handleChange}
-                     required
-                     className="text-gray-500 py-[2px] pl-[5px] text-xl border-solid border-1 border-gray-400
-                              rounded-[5px] w-full focus:outline-none focus:border-blue-600"
+                     required={true}
                   />
                </div>
 
                <div className="flex flex-col gap-2 items-start">
-                  <label htmlFor="password" className="text-black text-xl">
-                     Password:
-                  </label>
-                  <input
+                  <ClassicLabelField
                      id="password"
                      name="password"
                      type="password"
                      value={credentials.password}
+                     textLabel="Password"
                      onChange={handleChange}
-                     required
-                     className="text-gray-500 py-[2px] pl-[5px] text-xl border-solid border-1 border-gray-400
-                              rounded-[5px] w-full focus:outline-none focus:border-blue-600"
+                     required={true}
                   />
                </div>
 
-               <ClasicButton
+               <ClassicButton
                   text="Enviar"
                   color="bg-blue-600"
                   type="submit"
