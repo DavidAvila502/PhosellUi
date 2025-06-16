@@ -5,21 +5,24 @@ import { Login } from "../features/auth/pages/Login";
 import { Register } from "../features/auth/pages/Register";
 import { RequireAuth } from "../features/auth/components/RequireAuth";
 import { ROLES } from "./constants/roles";
-import { ClientDashboard } from "../features/client/pages/ClientDashBoard";
+import { ClientDashboard } from "../features/client/pages/ClientDashboard";
 import type { Roles } from "../features/auth/types/roles";
+import PublicLayout from "./layouts/PublicLayout";
 
 export function AppRoutes() {
    return (
       <Routes>
-         <Route path={ROUTES.HOME} element={<Home />} />
+         <Route element={<PublicLayout />}>
+            <Route path={ROUTES.HOME} element={<Home />} />
 
-         <Route path={ROUTES.AUTH.ROOT}>
-            <Route index element={<Login />} />
+            <Route path={ROUTES.AUTH.ROOT}>
+               <Route index element={<Login />} />
 
-            <Route
-               path={ROUTES.AUTH.REGISTER.substring(1)}
-               element={<Register />}
-            />
+               <Route
+                  path={ROUTES.AUTH.REGISTER.substring(1)}
+                  element={<Register />}
+               />
+            </Route>
          </Route>
 
          <Route
