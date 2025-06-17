@@ -1,17 +1,22 @@
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../app/constants/routes";
 import { Bars4Icon } from "@heroicons/react/16/solid";
-const PublicNavbar = () => {
+
+interface PublicNavbarProps {
+   toggleDrawer: () => void;
+}
+
+const PublicNavbar = ({ toggleDrawer }: PublicNavbarProps) => {
    return (
       <nav className="h-[70px] w-[100%] shadow-md flex items-center justify-center fixed">
          <div className="flex items-center justify-between w-[80%]">
             <p className="text-blue-400 text-3xl font-bold">Tropix</p>
-            <label
-               htmlFor="public-drawer"
+            <button
+               onClick={() => toggleDrawer()}
                className="drawer-button min-[700px]:hidden text-white cursor-pointer"
             >
                <Bars4Icon className="text-gray-400 size-9" />
-            </label>
+            </button>
             <ul className="flex gap-5 flex-row items-center text-lg max-[800px]:text-[15px] max-[700px]:hidden">
                <li
                   className="hover:border-solid border-b-2 border-b-transparent hover:border-b-2
