@@ -27,7 +27,7 @@ const DrawerWrapper = ({
             ></label>
             <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                {/* Sidebar content */}
-               <p className="text-blue-600 text-xl font-bold">Tropix</p>
+               <p className="text-blue-400 text-xl font-bold">Tropix</p>
 
                {drawerOptions.map((op, index) => {
                   return (

@@ -50,7 +50,7 @@ export function Login() {
                onSubmit={handleSubmit}
                className="flex flex-col gap-9 w-full"
             >
-               <p className="text-blue-600 font-bold text-2xl">
+               <p className="text-blue-400 font-bold text-2xl">
                   Iniciar sesión
                </p>
 
@@ -80,7 +80,7 @@ export function Login() {
 
                <ClassicButton
                   text="Enviar"
-                  color="bg-blue-600"
+                  color="bg-blue-400"
                   type="submit"
                   style="rounded-[10px]"
                   isLoading={isLoading}
