@@ -43,7 +43,7 @@ export function Login() {
          <div
             className="bg-white flex items-center rounded-[20px] min-h-[300px] px-[40px] py-[60px]
                         justify-center flex-col border-solid border-2 border-gray-200 shadow-2xl
-                        w-[350px] max-[411px]:w-[300px] sm:w-[400px]
+                        w-[350px] max-[450px]:w-[90%] sm:w-[400px]
                         "
          >
             <form
