@@ -11,7 +11,7 @@ const PublicNavbar = ({ toggleDrawer }: PublicNavbarProps) => {
    return (
       <nav className="h-[70px] w-[100%] shadow-md flex items-center justify-center fixed">
          <div
-            className={`${styles.innerwidth} flex items-center justify-between w-full`}
+            className={`${styles.innerwidth} flex items-center justify-between w-full ${styles.paddings}`}
          >
             <p className="text-blue-400 text-3xl font-bold">Tropix</p>
             <button

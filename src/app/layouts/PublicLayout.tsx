@@ -19,7 +19,7 @@ const PublicLayout = () => {
             <PublicNavbar toggleDrawer={toggleDrawer} />
          </header>
 
-         <main>
+         <main className="pt-[70px]">
             <Outlet />
          </main>
 

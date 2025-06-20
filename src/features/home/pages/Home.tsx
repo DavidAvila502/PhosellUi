@@ -1,7 +1,20 @@
+import styles from "../../../styles/customStyles";
+import BackgroundSlideShow from "../components/BackgroundSlideShow";
+import image1 from "../assets/image1.jpg";
+import image2 from "../assets/image2.jpg";
+import image3 from "../assets/image3.jpg";
+import image4 from "../assets/image4.jpg";
+
 export function Home() {
+   const images = [image1, image2, image3, image4];
+
    return (
-      <div className="flex items-center justify-center min-h-[100vh]">
-         <h1>Hello world!</h1>
+      <div
+         className={`flex flex-col items-center justify-center mx-auto w-full ${styles.innerwidth} ${styles.paddings}`}
+      >
+         <div className="mt-[40px]"></div>
+
+         <BackgroundSlideShow images={images} />
       </div>
    );
 }
