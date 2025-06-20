@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../app/constants/routes";
 import { Bars4Icon } from "@heroicons/react/16/solid";
+import styles from "../../styles/customStyles";
 
 interface PublicNavbarProps {
    toggleDrawer: () => void;
@@ -9,7 +10,9 @@ interface PublicNavbarProps {
 const PublicNavbar = ({ toggleDrawer }: PublicNavbarProps) => {
    return (
       <nav className="h-[70px] w-[100%] shadow-md flex items-center justify-center fixed">
-         <div className="flex items-center justify-between w-[80%]">
+         <div
+            className={`${styles.innerwidth} flex items-center justify-between w-full`}
+         >
             <p className="text-blue-400 text-3xl font-bold">Tropix</p>
             <button
                onClick={() => toggleDrawer()}
