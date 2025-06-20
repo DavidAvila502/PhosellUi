@@ -1,0 +1,42 @@
+import WorkStep from "../components/WorkStep";
+
+const HowWorkSection = () => {
+   return (
+      <div className="flex flex-col items-center bg-gray-50 min-h-[400px] w-full">
+         <p className="text-blue-400 font-bold text-4xl mt-[20px]">
+            ¿Cómo funciona?
+         </p>
+
+         <div className="mt-[30px]"></div>
+
+         <div className="flex flex-row justify-around items-center w-full flex-wrap gap-5">
+            <WorkStep
+               number="1."
+               title="Primer paso: reserva"
+               description="Registrate, elige una fecha, una hora y un lugar para tener tu
+                     sesión"
+            />
+
+            <WorkStep
+               number="2."
+               title="Segundo paso: encuentra al fotografo"
+               description="Al agendar tu sesión, te enviaremos un fotógrafo a la ubicación seleccionada"
+            />
+
+            <WorkStep
+               number="3."
+               title="Tercer paso: disfruta tú sesión"
+               description="Relájate y disfruta mientras capturamos tus mejores momentos."
+            />
+
+            <WorkStep
+               number="4."
+               title="Cuarto paso: recibe tus fotografías"
+               description="Una vez concluida la sesión, recibirás un enlace para obtener tus fotografías digítales."
+            />
+         </div>
+      </div>
+   );
+};
+
+export default HowWorkSection;

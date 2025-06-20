@@ -4,6 +4,7 @@ import image1 from "../assets/image1.jpg";
 import image2 from "../assets/image2.jpg";
 import image3 from "../assets/image3.jpg";
 import image4 from "../assets/image4.jpg";
+import HowWorkSection from "../sections/HowWorkSection";
 
 export function Home() {
    const images = [image1, image2, image3, image4];
@@ -15,6 +16,10 @@ export function Home() {
          <div className="mt-[40px]"></div>
 
          <BackgroundSlideShow images={images} />
+
+         <div className="mt-[40px]"></div>
+
+         <HowWorkSection />
       </div>
    );
 }
