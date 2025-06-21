@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 
-interface DrawerOption {
+export interface DrawerOption {
    label: string;
    path: string;
+   isHash?: boolean;
 }
 
 interface DrawerProps {
@@ -45,7 +47,7 @@ export default function Drawer({ isOpen, onClose, options }: DrawerProps) {
             <button
                onClick={onClose}
                aria-label="Close drawer"
-               className="self-end mb-4 text-gray-600 hover:text-gray-900"
+               className="self-end mb-4 text-xl text-gray-600 hover:text-gray-900"
             >
                ✕
             </button>
@@ -53,15 +55,10 @@ export default function Drawer({ isOpen, onClose, options }: DrawerProps) {
             <nav className="flex-1">
                <ul className="space-y-2">
                   {options.map((opt, idx) => (
-                     <li key={idx}>
-                        <Link
-                           to={opt.path}
-                           className="block px-3 py-2 rounded hover:bg-blue-500 hover:text-white"
-                           onClick={onClose}
-                        >
-                           {opt.label}
-                        </Link>
-                     </li>
+                     <div key={idx}>
+                        <li>{getDrawerOption(opt, onClose)}</li>
+                        <div className="divider"></div>
+                     </div>
                   ))}
                </ul>
             </nav>
@@ -70,3 +67,24 @@ export default function Drawer({ isOpen, onClose, options }: DrawerProps) {
       document.body
    );
 }
+
+const getDrawerOption = (opt: DrawerOption, onClose: () => void) => {
+   return !opt.isHash ? (
+      <Link
+         to={opt.path}
+         className="block px-3 py-2 rounded text-gray-600 text-[18px] hover:bg-blue-500 hover:text-white"
+         onClick={onClose}
+      >
+         {opt.label}
+      </Link>
+   ) : (
+      <HashLink
+         smooth
+         to={opt.path}
+         className="block px-3 py-2 rounded text-gray-600 text-[18px] hover:bg-blue-500 hover:text-white"
+         onClick={onClose}
+      >
+         {opt.label}
+      </HashLink>
+   );
+};

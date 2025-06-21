@@ -1,4 +1,4 @@
-import { Link, Routes } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ROUTES } from "../../app/constants/routes";
 import { Bars4Icon } from "@heroicons/react/16/solid";
 import styles from "../../styles/customStyles";
