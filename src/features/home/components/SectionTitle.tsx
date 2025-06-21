@@ -1,10 +1,15 @@
 interface SectionTitleProps {
    text: string;
+   textColor?: string;
 }
 
-const SectionTitle = ({ text }: SectionTitleProps) => {
+const SectionTitle = ({ text, textColor }: SectionTitleProps) => {
+   const finalTextColor = textColor ? textColor : "text-blue-400";
+
    return (
-      <p className="text-blue-400 text-center font-bold text-4xl mt-[20px]">
+      <p
+         className={`text-center font-bold text-4xl mt-[20px] ${finalTextColor}`}
+      >
          {text}
       </p>
    );
