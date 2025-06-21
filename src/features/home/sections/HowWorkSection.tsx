@@ -1,15 +1,14 @@
+import SectionTitle from "../components/SectionTitle";
 import WorkStep from "../components/WorkStep";
 
 const HowWorkSection = () => {
    return (
       <div className="flex flex-col items-center bg-gray-50 min-h-[400px] w-full">
-         <p className="text-blue-400 font-bold text-4xl mt-[20px]">
-            ¿Cómo funciona?
-         </p>
+         <SectionTitle text="¿Cómo funciona?" />
 
          <div className="mt-[30px]"></div>
 
-         <div className="flex flex-row justify-around items-center w-full flex-wrap gap-5">
+         <div className="flex flex-row justify-center items-center w-full flex-wrap gap-5">
             <WorkStep
                number="1."
                title="Primer paso: reserva"
