@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, Routes } from "react-router-dom";
 import { ROUTES } from "../../app/constants/routes";
 import { Bars4Icon } from "@heroicons/react/16/solid";
 import styles from "../../styles/customStyles";
+import { HashLink } from "react-router-hash-link";
 
 interface PublicNavbarProps {
    toggleDrawer: () => void;
@@ -32,7 +33,9 @@ const PublicNavbar = ({ toggleDrawer }: PublicNavbarProps) => {
                   className="hover:border-solid border-b-2 border-b-transparent hover:border-b-2
                              hover:border-blue-400 hover:text-blue-400 transition-all duration-200"
                >
-                  <Link to={""}>Cómo Funciona</Link>
+                  <HashLink smooth to={`${ROUTES.HOME}#how-work`}>
+                     Cómo Funciona
+                  </HashLink>
                </li>
 
                <li

@@ -3,7 +3,10 @@ import WorkStep from "../components/WorkStep";
 
 const HowWorkSection = () => {
    return (
-      <div className="flex flex-col items-center bg-gray-50 min-h-[400px] w-full">
+      <div
+         id="how-work"
+         className="flex flex-col items-center bg-gray-50 min-h-[400px] w-full scroll-mt-20 "
+      >
          <SectionTitle text="¿Cómo funciona?" />
 
          <div className="mt-[30px]"></div>
