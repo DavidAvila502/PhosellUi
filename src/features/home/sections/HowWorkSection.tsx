@@ -34,7 +34,7 @@ const HowWorkSection = () => {
             <WorkStep
                number="4."
                title="Cuarto paso: recibe tus fotografías"
-               description="Una vez concluida la sesión, recibirás un enlace para obtener tus fotografías digítales."
+               description="Una vez concluida la sesión, recibirás un enlace en las próximas 24 horas para obtener tus fotografías digítales."
             />
          </div>
       </div>
