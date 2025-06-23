@@ -9,4 +9,8 @@ export const ROUTES = {
       ROOT: "/client",
       CLIENTDASHBOARD: "/dashboard",
    },
+   SESSION:{
+      ROOT:"/session",
+      RESERVE:"/reserve"
+   }
 };

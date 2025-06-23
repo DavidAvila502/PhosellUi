@@ -11,7 +11,7 @@ const PublicLayout = () => {
    const options: DrawerOption[] = [
       { label: "Home", path: ROUTES.HOME },
       { label: "Cómo funciona", path: `${ROUTES.HOME}#how-work`, isHash: true },
-      { label: "Reservar Sesión", path: ROUTES.HOME },
+      { label: "Reservar Sesión", path: ROUTES.SESSION.ROOT },
       { label: "Login", path: ROUTES.AUTH.ROOT },
    ];
 

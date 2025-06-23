@@ -42,7 +42,7 @@ const PublicNavbar = ({ toggleDrawer }: PublicNavbarProps) => {
                   className="hover:border-solid border-b-2 border-b-transparent hover:border-b-2
                              hover:border-blue-400 hover:text-blue-400 transition-all duration-200"
                >
-                  <Link to={""}>Reservar Sesión</Link>
+                  <Link to={ROUTES.SESSION.ROOT}>Reservar Sesión</Link>
                </li>
 
                <li className="btn btn-outline btn-info hover:text-white">

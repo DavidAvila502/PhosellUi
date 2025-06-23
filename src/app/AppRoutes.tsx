@@ -8,6 +8,7 @@ import { ROLES } from "./constants/roles";
 import { ClientDashboard } from "../features/client/pages/ClientDashboard";
 import type { Roles } from "../features/auth/types/roles";
 import PublicLayout from "./layouts/PublicLayout";
+import Reserve from "../features/session/pages/Reserve";
 
 export function AppRoutes() {
    return (
@@ -22,6 +23,10 @@ export function AppRoutes() {
                   path={ROUTES.AUTH.REGISTER.substring(1)}
                   element={<Register />}
                />
+            </Route>
+
+            <Route path={ROUTES.SESSION.ROOT}>
+               <Route index element={<Reserve />} />
             </Route>
          </Route>
 
