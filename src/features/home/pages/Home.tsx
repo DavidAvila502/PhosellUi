@@ -5,7 +5,7 @@ import image2 from "../assets/image2.jpg";
 import image3 from "../assets/image3.jpg";
 import image4 from "../assets/image4.jpg";
 import HowWorkSection from "../sections/HowWorkSection";
-import WhyToChoose from "../sections/WhyToChoose";
+import WhyToChooseSection from "../sections/WhyToChooseSection";
 import AboutSection from "../sections/AboutSection";
 
 export function Home() {
@@ -13,23 +13,33 @@ export function Home() {
 
    return (
       <div
-         className={`flex flex-col items-center justify-center mx-auto w-full ${styles.innerwidth} ${styles.paddings}`}
+         className={`flex flex-col items-center justify-center mx-auto w-full`}
       >
-         <div className="mt-[40px]"></div>
+         <div
+            className={`mt-[40px] w-full ${styles.innerwidth} ${styles.paddings}`}
+         >
+            <BackgroundSlideShow images={images} />
+         </div>
 
-         <BackgroundSlideShow images={images} />
+         <div className="w-full mt-[40px] pb-[40px] bg-gray-50">
+            <div
+               className={`mx-auto w-full ${styles.innerwidth} ${styles.paddings}`}
+            >
+               <HowWorkSection />
+            </div>
+         </div>
 
-         <div className="mt-[40px]"></div>
+         <div
+            className={`mt-[40px] w-full ${styles.innerwidth} ${styles.paddings}`}
+         >
+            <WhyToChooseSection />
+         </div>
 
-         <HowWorkSection />
-
-         <div className="mt-[40px]"></div>
-
-         <WhyToChoose />
-
-         <div className="mt-[40px]"></div>
-
-         <AboutSection />
+         <div
+            className={`mt-[40px] w-full ${styles.innerwidth} ${styles.paddings}`}
+         >
+            <AboutSection />
+         </div>
       </div>
    );
 }

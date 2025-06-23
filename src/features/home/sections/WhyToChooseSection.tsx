@@ -7,7 +7,7 @@ import { PaperClipIcon } from "@heroicons/react/24/outline";
 import { PrinterIcon } from "@heroicons/react/16/solid";
 import { FaceSmileIcon } from "@heroicons/react/24/outline";
 
-const WhyToChoose = () => {
+const WhyToChooseSection = () => {
    return (
       <div className="flex flex-col items-center min-h-[400px] w-full">
          <SectionTitle text="¿Por qué elegir Tropix?" />
@@ -51,4 +51,4 @@ const WhyToChoose = () => {
    );
 };
 
-export default WhyToChoose;
+export default WhyToChooseSection;

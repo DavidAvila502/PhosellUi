@@ -5,7 +5,7 @@ const HowWorkSection = () => {
    return (
       <div
          id="how-work"
-         className="flex flex-col items-center bg-gray-50 min-h-[400px] w-full scroll-mt-20 "
+         className="flex flex-col items-center min-h-[400px] w-full scroll-mt-20 "
       >
          <SectionTitle text="¿Cómo funciona?" />
 
