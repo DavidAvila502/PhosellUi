@@ -3,6 +3,7 @@ import styles from "../../../styles/customStyles";
 
 import { useState, type ChangeEvent } from "react";
 import ReserveOptionsFormulary from "../components/ReserveOptionsFormulary";
+import RegisterAndReserveFormulary from "../components/RegisterAndReserveFormulary";
 
 export type ReserveOptionType = "opt1" | "opt2";
 
@@ -19,8 +20,12 @@ const Reserve = () => {
    };
 
    return (
-      <div className="flex w-full flex-col items-center min-h-[calc(100vh-70px)]">
-         <SectionTitle text="Regístrate y reserva" />
+      <div className="flex w-full flex-col items-center min-h-[calc(100vh-70px)] bg-gray-50">
+         <SectionTitle
+            text={
+               selectedOption == "opt1" ? "Regístrate y reserva" : "Regístrate"
+            }
+         />
 
          <div
             className={`mx-auto flex flex-col items-center w-full gap-8 
@@ -34,8 +39,8 @@ const Reserve = () => {
                />
             ) : null}
 
-            {isOptionConfirmed ? (
-               <p>Opcion seleccionada es {selectedOption}</p>
+            {isOptionConfirmed && selectedOption == "opt1" ? (
+               <RegisterAndReserveFormulary />
             ) : null}
          </div>
       </div>
