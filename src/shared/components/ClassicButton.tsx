@@ -4,7 +4,7 @@ interface ClassicButtonProps {
    style?: string;
    isLoading?: boolean;
    color?: string;
-   func?: <Args extends any[], Ret>(...args: Args) => Ret;
+   func?: (...args: any[]) => any;
 }
 const ClassicButton: React.FC<ClassicButtonProps> = ({
    text,
