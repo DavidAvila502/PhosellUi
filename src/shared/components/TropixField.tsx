@@ -6,6 +6,7 @@ interface TropixFieldProps {
    onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined;
    width?: string;
    required?: boolean;
+   placeHolder?: string;
 }
 
 const TropixField = ({
@@ -16,6 +17,7 @@ const TropixField = ({
    onChange = undefined,
    width,
    required = false,
+   placeHolder,
 }: TropixFieldProps) => {
    const finalWidth = width ? width : "w-[100%]";
 
@@ -35,6 +37,7 @@ const TropixField = ({
             name={id}
             type={type}
             value={value}
+            placeholder={placeHolder}
             onChange={onChange}
             required={required}
             className="input w-full focus:outline-none text-xl 

@@ -1,5 +1,6 @@
 import { useState, type ChangeEvent } from "react";
 import TropixField from "../../../shared/components/TropixField";
+import PackageOption from "./PackageOption";
 
 const RegisterAndReserveFormulary = () => {
    const [registerAndReserveData, setRegisterAndReserveData] = useState({
@@ -9,6 +10,8 @@ const RegisterAndReserveFormulary = () => {
       phoneCode: "+52",
       password: "",
       rePassword: "",
+      packageId: "1",
+      location: "",
    });
 
    const handleChange = (
@@ -118,6 +121,59 @@ const RegisterAndReserveFormulary = () => {
                   Seleccione un paquete
                </p>
             </div>
+
+            <div className="w-[60%] flex flex-col gap-2">
+               <PackageOption
+                  value="1"
+                  checked={registerAndReserveData.packageId == "1"}
+                  packageName="Básico ($1500 MXN)"
+                  benefits={["30 Fotos digitales editadas"]}
+                  nameGroup="packageId"
+                  onChange={handleChange}
+               />
+
+               <PackageOption
+                  value="2"
+                  checked={registerAndReserveData.packageId == "2"}
+                  packageName="Intermedio ($2300 MXN)"
+                  benefits={[
+                     "40 Fotos digitales editadas",
+                     "2 Collages digitales",
+                  ]}
+                  nameGroup="packageId"
+                  onChange={handleChange}
+               />
+
+               <PackageOption
+                  value="3"
+                  checked={registerAndReserveData.packageId == "3"}
+                  packageName="Premium ($3000 MXN)"
+                  benefits={[
+                     "50 Fotos digitales editadas",
+                     "2 Collages digitales",
+                     "1 Video slideshow",
+                  ]}
+                  nameGroup="packageId"
+                  onChange={handleChange}
+               />
+            </div>
+
+            <div className="divider mt-[40px] w-[90%] mx-auto">
+               <p className="text-2xl font-bold text-gray-600 text-center">
+                  Sesión
+               </p>
+            </div>
+
+            <TropixField
+               id="location"
+               textLabel="Dónde"
+               type="text"
+               value={registerAndReserveData.location}
+               width="w-[60%]"
+               onChange={handleChange}
+               required={true}
+               placeHolder="Hotel,Playa o Dirección"
+            />
          </div>
       </form>
    );
