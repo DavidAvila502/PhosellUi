@@ -1,48 +1,41 @@
-interface TropixFieldProps {
-   id: string;
+import React from "react";
+
+export interface TropixFieldProps
+   extends React.InputHTMLAttributes<HTMLInputElement> {
    textLabel?: string;
-   type: React.HTMLInputTypeAttribute | undefined;
-   value: string;
-   onChange?: React.ChangeEventHandler<HTMLInputElement> | undefined;
    width?: string;
-   required?: boolean;
-   placeHolder?: string;
 }
 
-const TropixField = ({
+const TropixField: React.FC<TropixFieldProps> = ({
    id,
    textLabel,
-   type,
-   value,
-   onChange = undefined,
-   width,
+   width = "w-full",
    required = false,
-   placeHolder,
-}: TropixFieldProps) => {
-   const finalWidth = width ? width : "w-[100%]";
+
+   className: extraClassName,
+   style: extraStyle,
+   ...restProps
+}) => {
+   const defaultClasses =
+      "input w-full p-4 text-xl bg-gray-50 transition-all duration-200 focus:outline-none focus:border-blue-400 focus:bg-white";
+   const mergedClassName = `${defaultClasses} ${extraClassName || ""}`.trim();
 
    return (
-      <div className={`flex flex-col ${finalWidth}`}>
+      <div className={`flex flex-col ${width}`}>
          {textLabel && (
-            <label htmlFor={id}>
-               <span className="text-[18px] mb-[5px] text-gray-500">
-                  {textLabel}
-               </span>
-               {required && <span className="text-red-400 font-bold"> *</span>}
+            <label htmlFor={id} className="flex mb-1">
+               <span className="text-lg text-gray-500">{textLabel}</span>
+               {required && <span className="ml-1 text-red-500">*</span>}
             </label>
          )}
 
          <input
             id={id}
             name={id}
-            type={type}
-            value={value}
-            placeholder={placeHolder}
-            onChange={onChange}
             required={required}
-            className="input w-full focus:outline-none text-xl 
-               focus:border-blue-400 bg-gray-50 focus:bg-white p-5 
-               transition-all duration-200"
+            className={mergedClassName}
+            style={extraStyle}
+            {...restProps}
          />
       </div>
    );

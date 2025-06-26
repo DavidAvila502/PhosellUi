@@ -1,6 +1,12 @@
 import { useState, type ChangeEvent } from "react";
 import TropixField from "../../../shared/components/TropixField";
 import PackageOption from "./PackageOption";
+import { DayPicker } from "react-day-picker";
+import {
+   getCurrentDate,
+   getDatePlusDays,
+   parseLocalDate,
+} from "../utils/DateUtils";
 
 const RegisterAndReserveFormulary = () => {
    const [registerAndReserveData, setRegisterAndReserveData] = useState({
@@ -12,6 +18,7 @@ const RegisterAndReserveFormulary = () => {
       rePassword: "",
       packageId: "1",
       location: "",
+      date: "--",
    });
 
    const handleChange = (
@@ -37,7 +44,7 @@ const RegisterAndReserveFormulary = () => {
             </ul>
          </div>
 
-         <div className="flex flex-col items-center h-full w-full gap-3 overflow-auto">
+         <div className="flex flex-col items-center h-full w-full gap-3 overflow-auto pb-[200px]">
             <div className="divider mt-[40px] w-[90%] mx-auto">
                <p className="text-2xl font-bold text-gray-600 text-center">
                   Información de Contacto y Cuenta
@@ -69,7 +76,8 @@ const RegisterAndReserveFormulary = () => {
                   htmlFor="phone"
                   className="text-[18px] mb-[5px] text-gray-500"
                >
-                  Telefono <span className="text-red-400 font-bold">*</span>
+                  Telefono (WhatsApp){" "}
+                  <span className="text-red-400 font-bold">*</span>
                </label>
                <div className="flex flex-row place-items-start gap-2">
                   <select
@@ -172,8 +180,45 @@ const RegisterAndReserveFormulary = () => {
                width="w-[60%]"
                onChange={handleChange}
                required={true}
-               placeHolder="Hotel,Playa o Dirección"
+               placeholder="Hotel,Playa o Dirección"
             />
+
+            <div className="w-[60%]">
+               <TropixField
+                  type="button"
+                  popoverTarget="rdp-popover"
+                  textLabel="Fecha"
+                  required={true}
+                  style={{ anchorName: "--rdp" } as React.CSSProperties}
+                  value={registerAndReserveData.date}
+                  className="text-left pt-1 text-gray-400 cursor-pointer flex items-center"
+               />
+
+               <div
+                  popover="auto"
+                  id="rdp-popover"
+                  className="dropdown"
+                  style={{ positionAnchor: "--rdp" } as React.CSSProperties}
+               >
+                  <DayPicker
+                     className="react-day-picker"
+                     mode="single"
+                     selected={parseLocalDate(registerAndReserveData.date)}
+                     onSelect={(date) =>
+                        setRegisterAndReserveData((prev) => ({
+                           ...prev,
+                           ["date"]: date
+                              ? date.toLocaleDateString("en-CA")
+                              : "",
+                        }))
+                     }
+                     disabled={{
+                        before: getCurrentDate(),
+                        after: getDatePlusDays(14),
+                     }}
+                  />
+               </div>
+            </div>
          </div>
       </form>
    );
