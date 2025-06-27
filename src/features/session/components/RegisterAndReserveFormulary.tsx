@@ -9,6 +9,9 @@ import {
 } from "../utils/DateUtils";
 import TimeSelector from "./TimeSelector";
 import ClassicButton from "../../../shared/components/ClassicButton";
+import { useScrollSpy } from "../hooks/useScrollSpy";
+
+const steps: string[] = ["Contacto y cuenta", "Paquetes", "Sesión"];
 
 const RegisterAndReserveFormulary = () => {
    const [registerAndReserveData, setRegisterAndReserveData] = useState({
@@ -32,6 +35,13 @@ const RegisterAndReserveFormulary = () => {
       setRegisterAndReserveData((prev) => ({ ...prev, [name]: value }));
    };
 
+   const { allActiveSteps } = useScrollSpy({
+      containerSelector: "#register-reserve-body",
+      selector: ".step-section",
+      threshold: 0.6,
+      stepList: steps,
+   });
+
    return (
       <form
          className="flex flex-col items-center justify-center
@@ -39,16 +49,24 @@ const RegisterAndReserveFormulary = () => {
       >
          <div className="bg-blue-500 p-[10px] flex justify-center w-full ">
             <ul className="steps text-xl">
-               <li className="step text-white step-primary">
-                  Contacto y cuenta
-               </li>
-               <li className="step text-white">Paquetes</li>
-               <li className="step text-white">Sesion</li>
+               {steps.map((step, index) => (
+                  <li
+                     key={index}
+                     className={`step text-white ${
+                        allActiveSteps.includes(step) ? "step-primary" : ""
+                     }`}
+                  >
+                     {step}
+                  </li>
+               ))}
             </ul>
          </div>
 
-         <div className="flex flex-col items-center h-full w-full gap-3 overflow-auto pb-[200px]">
-            <div className="divider mt-[40px] w-[90%] mx-auto">
+         <div
+            id="register-reserve-body"
+            className="flex flex-col items-center h-full w-full gap-3 overflow-auto scroll-smooth pb-[100px]"
+         >
+            <div className="step-section divider mt-[40px] w-[90%] mx-auto">
                <p className="text-2xl font-bold text-gray-600 text-center">
                   Información de Contacto y Cuenta
                </p>
@@ -127,7 +145,7 @@ const RegisterAndReserveFormulary = () => {
                required={true}
             />
 
-            <div className="divider mt-[40px] w-[90%] mx-auto">
+            <div className="step-section divider mt-[40px] w-[90%] mx-auto">
                <p className="text-2xl font-bold text-gray-600 text-center">
                   Seleccione un paquete
                </p>
@@ -169,7 +187,7 @@ const RegisterAndReserveFormulary = () => {
                />
             </div>
 
-            <div className="divider mt-[40px] w-[90%] mx-auto">
+            <div className="step-section divider mt-[40px] w-[90%] mx-auto">
                <p className="text-2xl font-bold text-gray-600 text-center">
                   Sesión
                </p>
