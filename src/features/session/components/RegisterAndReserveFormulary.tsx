@@ -7,6 +7,8 @@ import {
    getDatePlusDays,
    parseLocalDate,
 } from "../utils/DateUtils";
+import TimeSelector from "./TimeSelector";
+import ClassicButton from "../../../shared/components/ClassicButton";
 
 const RegisterAndReserveFormulary = () => {
    const [registerAndReserveData, setRegisterAndReserveData] = useState({
@@ -19,6 +21,7 @@ const RegisterAndReserveFormulary = () => {
       packageId: "1",
       location: "",
       date: "--",
+      time: "",
    });
 
    const handleChange = (
@@ -191,7 +194,7 @@ const RegisterAndReserveFormulary = () => {
                   required={true}
                   style={{ anchorName: "--rdp" } as React.CSSProperties}
                   value={registerAndReserveData.date}
-                  className="text-left pt-1 text-gray-400 cursor-pointer flex items-center"
+                  className="text-left pt-1 cursor-pointer flex items-center"
                />
 
                <div
@@ -219,6 +222,26 @@ const RegisterAndReserveFormulary = () => {
                   />
                </div>
             </div>
+
+            <div className="w-[60%] min-h-[200px] mt-[20px] flex flex-col gap-3">
+               <p className="text-lg text-gray-500">
+                  Hora <span className="text-red-400">*</span>
+               </p>
+               <TimeSelector
+                  func={(time: string) =>
+                     setRegisterAndReserveData((prev) => ({
+                        ...prev,
+                        ["time"]: time,
+                     }))
+                  }
+                  timeList={["02:00", "03:00", "04:00"]}
+                  selected={registerAndReserveData.time}
+               />
+            </div>
+
+            <div className="mt-[20px]"></div>
+
+            <ClassicButton type="submit" color="bg-blue-400" text="Continuar" />
          </div>
       </form>
    );
