@@ -22,6 +22,7 @@ const PUBLIC_PATHS = [
    "/auth/logout",
    "/auth/refresh",
    "/auth/register",
+   "/packages",
 ];
 
 axiosClient.interceptors.request.use(

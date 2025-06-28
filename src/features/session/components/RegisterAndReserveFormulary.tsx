@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent } from "react";
 import TropixField from "../../../shared/components/TropixField";
-import PackageOption from "./PackageOption";
+import PackageOption from "../../sessionPackage/components/PackageOption";
 import { DayPicker } from "react-day-picker";
 import {
    getCurrentDate,

@@ -1,9 +1,9 @@
 import SectionTitle from "../../home/components/SectionTitle";
 import styles from "../../../styles/customStyles";
-
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import ReserveOptionsFormulary from "../components/ReserveOptionsFormulary";
 import RegisterAndReserveFormulary from "../components/RegisterAndReserveFormulary";
+import useGetAllSessionPackages from "../../sessionPackage/hooks/useGetAllSessionPackages";
 
 export type ReserveOptionType = "opt1" | "opt2";
 
@@ -13,11 +13,29 @@ const Reserve = () => {
 
    const [isOptionConfirmed, setIsOptionConfirmed] = useState<boolean>(false);
 
+   const { data, isLoading, error, getAllSessionsPackages } =
+      useGetAllSessionPackages();
+
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value as ReserveOptionType;
 
       setSelectedOption(value);
    };
+
+   const handleConfirm = () => {
+      if (isLoading) return;
+      setIsOptionConfirmed(true);
+
+      if (selectedOption == "opt1") {
+         getAllSessionsPackages();
+      }
+   };
+
+   useEffect(() => {
+      if (error) {
+         setIsOptionConfirmed(false);
+      }
+   }, [error]);
 
    return (
       <div className="flex w-full flex-col items-center min-h-[calc(100vh-70px)] bg-gray-50">
@@ -31,15 +49,21 @@ const Reserve = () => {
             className={`mx-auto flex flex-col items-center w-full gap-8 
                      ${styles.innerwidth} ${styles.paddings} mt-[40px]`}
          >
-            {!isOptionConfirmed ? (
+            {isLoading ? (
+               <div className="w-full h-[400px] flex items-center justify-center">
+                  <span className="loading loading-spinner loading-xl text-primary"></span>
+               </div>
+            ) : null}
+
+            {!isOptionConfirmed && !data && !isLoading ? (
                <ReserveOptionsFormulary
                   selectedOption={selectedOption}
                   handleChange={handleChange}
-                  buttonFunc={() => setIsOptionConfirmed(true)}
+                  buttonFunc={handleConfirm}
                />
             ) : null}
 
-            {isOptionConfirmed && selectedOption == "opt1" ? (
+            {isOptionConfirmed && selectedOption == "opt1" && data != null ? (
                <RegisterAndReserveFormulary />
             ) : null}
          </div>
