@@ -9,7 +9,7 @@ import {
 } from "../utils/DateUtils";
 import TimeSelector from "./TimeSelector";
 import ClassicButton from "../../../shared/components/ClassicButton";
-import { useScrollSpy } from "../hooks/useScrollSpy";
+import { useStepsScrollSpy } from "../hooks/useStepsScrollSpy";
 
 const steps: string[] = ["Contacto y cuenta", "Paquetes", "Sesión"];
 
@@ -35,9 +35,9 @@ const RegisterAndReserveFormulary = () => {
       setRegisterAndReserveData((prev) => ({ ...prev, [name]: value }));
    };
 
-   const { allActiveSteps } = useScrollSpy({
+   const { allActiveSteps } = useStepsScrollSpy({
       containerSelector: "#register-reserve-body",
-      selector: ".step-section",
+      stepSelector: ".step-section",
       threshold: 0.6,
       stepList: steps,
    });

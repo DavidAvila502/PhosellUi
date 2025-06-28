@@ -1,14 +1,32 @@
 interface useScrollSpyProps {
    containerSelector: string;
-   selector: string;
+   stepSelector: string;
    threshold: number;
    stepList: string[];
 }
 
 import { useState, useEffect } from "react";
 
-export function useScrollSpy({
-   selector,
+/**
+ * useStepsScrollSpy
+ *
+ * A React hook that monitors scrolling within a container and returns
+ * the index of the currently visible (or most recently passed) step,
+ * along with the list of all previous steps.
+ *
+ * @param props.containerSelector - CSS selector for the scrolling container (e.g. `"#scroller"`).
+ * @param props.stepSelector      - CSS selector for each step section inside the container (e.g. `".step-section"`).
+ * @param props.stepList          - Ordered list of step names (or identifiers).
+ * @param props.threshold?        - Fraction of the container height to use as a visibility threshold
+ *                                  (value between 0 and 1). Defaults to `0.6`.
+ *
+ * @returns {{
+ *   active: number;           // Zero-based index of the currently active step
+ *   allActiveSteps: string[]; // stepList slice from 0 up to active (inclusive)
+ * }}
+ */
+export function useStepsScrollSpy({
+   stepSelector,
    threshold = 0.6,
    stepList,
    containerSelector,
@@ -22,7 +40,7 @@ export function useScrollSpy({
 
       const onScroll = () => {
          const sections = Array.from(
-            container.querySelectorAll<HTMLElement>(selector)
+            container.querySelectorAll<HTMLElement>(stepSelector)
          );
 
          const scrollTop = container.scrollTop;
@@ -47,7 +65,7 @@ export function useScrollSpy({
       onScroll();
 
       return () => container.removeEventListener("scroll", onScroll);
-   }, [selector, threshold]);
+   }, [containerSelector, stepSelector, threshold, stepList]);
 
    return { active, allActiveSteps };
 }
