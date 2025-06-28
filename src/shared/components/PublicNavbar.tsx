@@ -10,7 +10,7 @@ interface PublicNavbarProps {
 
 const PublicNavbar = ({ toggleDrawer }: PublicNavbarProps) => {
    return (
-      <nav className="h-[70px] w-[100%] shadow-md flex items-center justify-center fixed bg-white z-1">
+      <nav className="h-[70px] w-[100%] shadow-md flex items-center justify-center fixed bg-white z-2">
          <div
             className={`${styles.innerwidth} flex items-center justify-between w-full ${styles.paddings}`}
          >
