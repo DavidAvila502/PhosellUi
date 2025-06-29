@@ -19,7 +19,7 @@ const PackageOption = ({
 }: PackageOptionProps) => {
    return (
       <label
-         className={`flex flex-row items-center gap-3 border-[1px] border-gray-300 rounded-[5px] h-[100px]
+         className={`flex flex-row items-center gap-3 border-[1px] border-gray-300 rounded-[5px] h-[110px]
             cursor-pointer ${checked ? "bg-blue-100" : "bg-gray-50"}`}
       >
          <input

@@ -10,10 +10,18 @@ import {
 import TimeSelector from "./TimeSelector";
 import ClassicButton from "../../../shared/components/ClassicButton";
 import { useStepsScrollSpy } from "../hooks/useStepsScrollSpy";
+import type { SessionPackage } from "../../sessionPackage/models/package";
+import { splitBenefits } from "../utils/SessionPackageUtils";
+
+interface RegisterAndReserveFormularyProps {
+   packages: SessionPackage[];
+}
 
 const steps: string[] = ["Contacto y cuenta", "Paquetes", "Sesión"];
 
-const RegisterAndReserveFormulary = () => {
+const RegisterAndReserveFormulary = ({
+   packages,
+}: RegisterAndReserveFormularyProps) => {
    const [registerAndReserveData, setRegisterAndReserveData] = useState({
       fullName: "",
       email: "",
@@ -152,39 +160,21 @@ const RegisterAndReserveFormulary = () => {
             </div>
 
             <div className="w-[60%] flex flex-col gap-2">
-               <PackageOption
-                  value="1"
-                  checked={registerAndReserveData.packageId == "1"}
-                  packageName="Básico ($1500 MXN)"
-                  benefits={["30 Fotos digitales editadas"]}
-                  nameGroup="packageId"
-                  onChange={handleChange}
-               />
-
-               <PackageOption
-                  value="2"
-                  checked={registerAndReserveData.packageId == "2"}
-                  packageName="Intermedio ($2300 MXN)"
-                  benefits={[
-                     "40 Fotos digitales editadas",
-                     "2 Collages digitales",
-                  ]}
-                  nameGroup="packageId"
-                  onChange={handleChange}
-               />
-
-               <PackageOption
-                  value="3"
-                  checked={registerAndReserveData.packageId == "3"}
-                  packageName="Premium ($3000 MXN)"
-                  benefits={[
-                     "50 Fotos digitales editadas",
-                     "2 Collages digitales",
-                     "1 Video slideshow",
-                  ]}
-                  nameGroup="packageId"
-                  onChange={handleChange}
-               />
+               {packages.map(
+                  (currentPackage: SessionPackage, index: number) => (
+                     <PackageOption
+                        key={index}
+                        value={currentPackage.id}
+                        checked={
+                           registerAndReserveData.packageId == currentPackage.id
+                        }
+                        packageName={`${currentPackage.name} ($${currentPackage.price} MXN)`}
+                        benefits={splitBenefits(currentPackage.benefits)}
+                        nameGroup="packageId"
+                        onChange={handleChange}
+                     />
+                  )
+               )}
             </div>
 
             <div className="step-section divider mt-[40px] w-[90%] mx-auto">

@@ -64,7 +64,7 @@ const Reserve = () => {
             ) : null}
 
             {isOptionConfirmed && selectedOption == "opt1" && data != null ? (
-               <RegisterAndReserveFormulary />
+               <RegisterAndReserveFormulary packages={data} />
             ) : null}
          </div>
       </div>
