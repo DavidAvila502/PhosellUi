@@ -5,7 +5,7 @@ interface useScrollSpyProps {
    stepList: string[];
 }
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 /**
  * useStepsScrollSpy
@@ -32,7 +32,6 @@ export function useStepsScrollSpy({
    containerSelector,
 }: useScrollSpyProps) {
    const [active, setActive] = useState(0);
-   const [allActiveSteps, setAllActiveSteps] = useState<string[]>([]);
 
    useEffect(() => {
       const container = document.querySelector<HTMLElement>(containerSelector);
@@ -46,19 +45,16 @@ export function useStepsScrollSpy({
          const scrollTop = container.scrollTop;
          const height = container.clientHeight;
 
-         const nextIdx = sections.findIndex(
-            (sec) => sec.offsetTop > scrollTop + height * threshold
-         );
+         const nextIdx = (() => {
+            const idx = sections.findIndex(
+               (sec) => sec.offsetTop > scrollTop + height * threshold
+            );
+            if (idx === 0) return 0;
+            if (idx === -1) return sections.length - 1;
+            return idx - 1;
+         })();
 
-         const newActive =
-            nextIdx === 0
-               ? 0
-               : nextIdx === -1
-               ? sections.length - 1
-               : nextIdx - 1;
-
-         setActive(newActive);
-         setAllActiveSteps(stepList.slice(0, newActive + 1));
+         setActive(nextIdx);
       };
 
       container.addEventListener("scroll", onScroll, { passive: true });
@@ -66,6 +62,11 @@ export function useStepsScrollSpy({
 
       return () => container.removeEventListener("scroll", onScroll);
    }, [containerSelector, stepSelector, threshold, stepList]);
+
+   const allActiveSteps = useMemo(
+      () => stepList.slice(0, active + 1),
+      [stepList, active]
+   );
 
    return { active, allActiveSteps };
 }

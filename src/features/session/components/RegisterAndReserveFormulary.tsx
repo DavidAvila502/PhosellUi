@@ -9,9 +9,9 @@ import {
 } from "../utils/DateUtils";
 import TimeSelector from "./TimeSelector";
 import ClassicButton from "../../../shared/components/ClassicButton";
-import { useStepsScrollSpy } from "../hooks/useStepsScrollSpy";
 import type { SessionPackage } from "../../sessionPackage/models/package";
 import { splitBenefits } from "../utils/SessionPackageUtils";
+import StepsIndicator from "./StepsIndicator";
 
 interface RegisterAndReserveFormularyProps {
    packages: SessionPackage[];
@@ -29,7 +29,7 @@ const RegisterAndReserveFormulary = ({
       phoneCode: "+52",
       password: "",
       rePassword: "",
-      packageId: "1",
+      packageId: packages.length > 0 ? packages[0].id : "",
       location: "",
       date: "--",
       time: "",
@@ -43,31 +43,13 @@ const RegisterAndReserveFormulary = ({
       setRegisterAndReserveData((prev) => ({ ...prev, [name]: value }));
    };
 
-   const { allActiveSteps } = useStepsScrollSpy({
-      containerSelector: "#register-reserve-body",
-      stepSelector: ".step-section",
-      threshold: 0.6,
-      stepList: steps,
-   });
-
    return (
       <form
          className="flex flex-col items-center justify-center
              rounded-[20px] pt-[8px] w-[80%] bg-white h-[700px]"
       >
          <div className="bg-blue-500 p-[10px] flex justify-center w-full ">
-            <ul className="steps text-xl">
-               {steps.map((step, index) => (
-                  <li
-                     key={index}
-                     className={`step text-white ${
-                        allActiveSteps.includes(step) ? "step-primary" : ""
-                     }`}
-                  >
-                     {step}
-                  </li>
-               ))}
-            </ul>
+            <StepsIndicator stepList={steps} />
          </div>
 
          <div
