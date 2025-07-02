@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import TropixField from "../../../shared/components/TropixField";
 import PackageOption from "../../sessionPackage/components/PackageOption";
 import { DayPicker } from "react-day-picker";
@@ -12,6 +12,7 @@ import ClassicButton from "../../../shared/components/ClassicButton";
 import type { SessionPackage } from "../../sessionPackage/models/package";
 import { splitBenefits } from "../utils/SessionPackageUtils";
 import StepsIndicator from "./StepsIndicator";
+import useGetAvailableSlots from "../hooks/useGetAvailableSlots";
 
 interface RegisterAndReserveFormularyProps {
    packages: SessionPackage[];
@@ -35,12 +36,33 @@ const RegisterAndReserveFormulary = ({
       time: "",
    });
 
+   const [isDayPickerOpen, setIsDayPickerOpen] = useState(false);
+
+   const { getAvailableSlots } = useGetAvailableSlots();
+
+   useEffect(() => {
+      if (registerAndReserveData.date != "--") {
+         getAvailableSlots(registerAndReserveData.date);
+      }
+   }, [registerAndReserveData.date]);
+
    const handleChange = (
       e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
    ) => {
       const { name, value } = e.target;
 
       setRegisterAndReserveData((prev) => ({ ...prev, [name]: value }));
+   };
+
+   const handleDayPicker = (date: Date | undefined) => {
+      setIsDayPickerOpen(!isDayPickerOpen);
+
+      if (!date) return;
+
+      setRegisterAndReserveData((prev) => ({
+         ...prev,
+         ["date"]: date ? date.toLocaleDateString("en-CA") : "",
+      }));
    };
 
    return (
@@ -185,32 +207,28 @@ const RegisterAndReserveFormulary = ({
                   style={{ anchorName: "--rdp" } as React.CSSProperties}
                   value={registerAndReserveData.date}
                   className="text-left pt-1 cursor-pointer flex items-center"
+                  onClick={() => setIsDayPickerOpen(!isDayPickerOpen)}
                />
 
-               <div
-                  popover="auto"
-                  id="rdp-popover"
-                  className="dropdown"
-                  style={{ positionAnchor: "--rdp" } as React.CSSProperties}
-               >
-                  <DayPicker
-                     className="react-day-picker"
-                     mode="single"
-                     selected={parseLocalDate(registerAndReserveData.date)}
-                     onSelect={(date) =>
-                        setRegisterAndReserveData((prev) => ({
-                           ...prev,
-                           ["date"]: date
-                              ? date.toLocaleDateString("en-CA")
-                              : "",
-                        }))
-                     }
-                     disabled={{
-                        before: getCurrentDate(),
-                        after: getDatePlusDays(14),
-                     }}
-                  />
-               </div>
+               {isDayPickerOpen && (
+                  <div
+                     popover="auto"
+                     id="rdp-popover"
+                     className="dropdown"
+                     style={{ positionAnchor: "--rdp" } as React.CSSProperties}
+                  >
+                     <DayPicker
+                        className="react-day-picker"
+                        mode="single"
+                        selected={parseLocalDate(registerAndReserveData.date)}
+                        onSelect={handleDayPicker}
+                        disabled={{
+                           before: getCurrentDate(),
+                           after: getDatePlusDays(14),
+                        }}
+                     />
+                  </div>
+               )}
             </div>
 
             <div className="w-[60%] min-h-[200px] mt-[20px] flex flex-col gap-3">

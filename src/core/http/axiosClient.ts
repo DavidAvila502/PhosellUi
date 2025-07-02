@@ -23,6 +23,7 @@ const PUBLIC_PATHS = [
    "/auth/refresh",
    "/auth/register",
    "/packages",
+   "/sessions/available-slots",
 ];
 
 axiosClient.interceptors.request.use(
