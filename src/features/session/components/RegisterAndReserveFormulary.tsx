@@ -38,7 +38,8 @@ const RegisterAndReserveFormulary = ({
 
    const [isDayPickerOpen, setIsDayPickerOpen] = useState(false);
 
-   const { getAvailableSlots } = useGetAvailableSlots();
+   const { availableSlots, isSlotsLoading, getAvailableSlots } =
+      useGetAvailableSlots();
 
    useEffect(() => {
       if (registerAndReserveData.date != "--") {
@@ -62,6 +63,7 @@ const RegisterAndReserveFormulary = ({
       setRegisterAndReserveData((prev) => ({
          ...prev,
          ["date"]: date ? date.toLocaleDateString("en-CA") : "",
+         ["time"]: "",
       }));
    };
 
@@ -242,8 +244,9 @@ const RegisterAndReserveFormulary = ({
                         ["time"]: time,
                      }))
                   }
-                  timeList={["02:00", "03:00", "04:00"]}
+                  timeList={availableSlots ? availableSlots : []}
                   selected={registerAndReserveData.time}
+                  isTimeListLoading={isSlotsLoading}
                />
             </div>
 
