@@ -1,4 +1,9 @@
-import { useEffect, useState, type ChangeEvent } from "react";
+import React, {
+   useEffect,
+   useState,
+   type ChangeEvent,
+   type FormEvent,
+} from "react";
 import TropixField from "../../../shared/components/TropixField";
 import PackageOption from "../../sessionPackage/components/PackageOption";
 import { DayPicker } from "react-day-picker";
@@ -13,6 +18,11 @@ import type { SessionPackage } from "../../sessionPackage/models/package";
 import { splitBenefits } from "../utils/SessionPackageUtils";
 import StepsIndicator from "./StepsIndicator";
 import useGetAvailableSlots from "../hooks/useGetAvailableSlots";
+import type { RegisterAndReserveFormularyDto } from "../dtos/SessionDtos";
+import {
+   validateAll,
+   type RegisterAndReserveFormularyErrors,
+} from "../utils/RegisterAndReserveValidations";
 
 interface RegisterAndReserveFormularyProps {
    packages: SessionPackage[];
@@ -23,18 +33,33 @@ const steps: string[] = ["Contacto y cuenta", "Paquetes", "Sesión"];
 const RegisterAndReserveFormulary = ({
    packages,
 }: RegisterAndReserveFormularyProps) => {
-   const [registerAndReserveData, setRegisterAndReserveData] = useState({
-      fullName: "",
-      email: "",
-      phone: "",
-      phoneCode: "+52",
-      password: "",
-      rePassword: "",
-      packageId: packages.length > 0 ? packages[0].id : "",
-      location: "",
-      date: "--",
-      time: "",
-   });
+   const [registerAndReserveData, setRegisterAndReserveData] =
+      useState<RegisterAndReserveFormularyDto>({
+         fullName: "",
+         email: "",
+         phone: "",
+         phoneCode: "+52",
+         password: "",
+         rePassword: "",
+         packageId: packages.length > 0 ? packages[0].id : "",
+         location: "",
+         date: "--",
+         time: "",
+      });
+
+   const [registerAndReserveErrors, setRegisterAndReserveErrors] =
+      useState<RegisterAndReserveFormularyErrors>({
+         fullName: null,
+         email: null,
+         phone: null,
+         phoneCode: null,
+         password: null,
+         rePassword: null,
+         packageId: null,
+         location: null,
+         date: null,
+         time: null,
+      });
 
    const [isDayPickerOpen, setIsDayPickerOpen] = useState(false);
 
@@ -45,7 +70,7 @@ const RegisterAndReserveFormulary = ({
       if (registerAndReserveData.date != "--") {
          getAvailableSlots(registerAndReserveData.date);
       }
-   }, [registerAndReserveData.date]);
+   }, [registerAndReserveData.date, getAvailableSlots]);
 
    const handleChange = (
       e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -67,8 +92,26 @@ const RegisterAndReserveFormulary = ({
       }));
    };
 
+   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      const formularyErrors: RegisterAndReserveFormularyErrors = validateAll(
+         registerAndReserveData
+      );
+
+      const hasError: boolean = Object.values(formularyErrors).some(
+         (value) => value != null
+      );
+
+      if (hasError) {
+         setRegisterAndReserveErrors(formularyErrors);
+         return;
+      }
+   };
+
    return (
       <form
+         onSubmit={handleSubmit}
          className="flex flex-col items-center justify-center
              rounded-[20px] pt-[8px] w-[80%] bg-white h-[700px]"
       >
@@ -94,6 +137,7 @@ const RegisterAndReserveFormulary = ({
                width="w-[60%]"
                onChange={handleChange}
                required={true}
+               isthereError={registerAndReserveErrors.fullName}
             />
 
             <TropixField
@@ -157,6 +201,7 @@ const RegisterAndReserveFormulary = ({
                width="w-[60%]"
                onChange={handleChange}
                required={true}
+               isthereError={registerAndReserveErrors.rePassword}
             />
 
             <div className="step-section divider mt-[40px] w-[90%] mx-auto">
@@ -205,11 +250,11 @@ const RegisterAndReserveFormulary = ({
                   type="button"
                   popoverTarget="rdp-popover"
                   textLabel="Fecha"
-                  required={true}
                   style={{ anchorName: "--rdp" } as React.CSSProperties}
                   value={registerAndReserveData.date}
                   className="text-left pt-1 cursor-pointer flex items-center"
                   onClick={() => setIsDayPickerOpen(!isDayPickerOpen)}
+                  isthereError={registerAndReserveErrors.date}
                />
 
                {isDayPickerOpen && (
@@ -248,6 +293,11 @@ const RegisterAndReserveFormulary = ({
                   selected={registerAndReserveData.time}
                   isTimeListLoading={isSlotsLoading}
                />
+               <p className="text-red-400">
+                  {registerAndReserveErrors.time
+                     ? registerAndReserveErrors.time
+                     : null}
+               </p>
             </div>
 
             <div className="mt-[20px]"></div>

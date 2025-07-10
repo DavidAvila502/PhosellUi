@@ -4,6 +4,7 @@ export interface TropixFieldProps
    extends React.InputHTMLAttributes<HTMLInputElement> {
    textLabel?: string;
    width?: string;
+   isthereError?: string | null;
 }
 
 const TropixField: React.FC<TropixFieldProps> = ({
@@ -11,6 +12,7 @@ const TropixField: React.FC<TropixFieldProps> = ({
    textLabel,
    width = "w-full",
    required = false,
+   isthereError,
 
    className: extraClassName,
    style: extraStyle,
@@ -37,6 +39,7 @@ const TropixField: React.FC<TropixFieldProps> = ({
             style={extraStyle}
             {...restProps}
          />
+         <p className="text-red-400">{isthereError ? isthereError : ""}</p>
       </div>
    );
 };
