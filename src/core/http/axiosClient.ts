@@ -26,6 +26,10 @@ const PUBLIC_PATHS = [
    "/sessions/available-slots",
 ];
 
+/**
+ * Intercepts each rese and add the acces token if needed
+ * public routes are not gonna be affected.
+ */
 axiosClient.interceptors.request.use(
    (config) => {
       const requestPath = config.url?.replace(config.baseURL || "", "") ?? "";
@@ -48,72 +52,19 @@ axiosClient.interceptors.request.use(
    }
 );
 
-interface FailedRequest {
-   resolve: (config: InternalAxiosRequestConfig) => void;
-   reject: (error: any) => void;
-   config: InternalAxiosRequestConfig & { _retry?: boolean };
-}
+// TODO: No all 401 errors are an jwt expiration error
+// due to this we need to be sure about the right case an apply the rules
+// and avoid unesscesary refreshing calls
+
+/**
+ * Intercepts each response with an 401 (token expiration error) error
+ * store the pedding api calls, refresh the acces token
+ * and finally retry all again
+ */
 
 // flag
 let isRefreshing = false;
-//pending responses
-let failedQueue: FailedRequest[] = [];
 
-//processPendingResponses
-const processQueue = (error?: any, token?: string) => {
-   failedQueue.forEach((prom) => {
-      if (error) {
-         prom.reject(error);
-      } else {
-         if (token) {
-            prom.config.headers!["Authorization"] = `Bearer ${token}`;
-         }
-         prom.resolve(prom.config);
-      }
-   });
-   failedQueue = [];
-};
-//Add pending responses to failedQueue
-const pushToFailedQueue = (originalReq: InternalAxiosRequestConfig) => {
-   return new Promise<InternalAxiosRequestConfig>((resolve, reject) => {
-      failedQueue.push({ resolve, reject, config: originalReq });
-   }).then((reqConfig) => axiosClient(reqConfig));
-};
-
-//retry the original request once we get the new accesToken
-const retryOriginalRequest = (originalReq: InternalAxiosRequestConfig<any>) => {
-   isRefreshing = true;
-   const { setAuth, clearAuth } = useAuthStore.getState();
-   return new Promise(async (resolve, reject) => {
-      try {
-         const { data } = await axiosClient.post<{
-            accessToken: string;
-            expiresIn: number;
-         }>("/auth/refresh");
-
-         setAuth({
-            ...useAuthStore.getState(),
-            jwtToken: data.accessToken,
-            expiresIn: data.expiresIn,
-         });
-         processQueue(null, data.accessToken);
-
-         originalReq.headers!["Authorization"] = `Bearer ${data.accessToken}`;
-         resolve(axiosClient(originalReq));
-      } catch (refreshError) {
-         processQueue(refreshError);
-         clearAuth();
-         if (!window.location.pathname.startsWith(ROUTES.AUTH.ROOT)) {
-            window.location.replace(ROUTES.AUTH.ROOT);
-         }
-         reject(refreshError);
-      } finally {
-         isRefreshing = false;
-      }
-   });
-};
-
-// intercept each response
 axiosClient.interceptors.response.use(
    (res: AxiosResponse) => res,
    (err: AxiosError) => {
@@ -141,5 +92,74 @@ axiosClient.interceptors.response.use(
       return retryOriginalRequest(originalReq);
    }
 );
+
+interface FailedRequest {
+   resolve: (config: InternalAxiosRequestConfig) => void;
+   reject: (error: unknown) => void;
+   config: InternalAxiosRequestConfig & { _retry?: boolean };
+}
+
+//pending responses
+let failedQueue: FailedRequest[] = [];
+
+//processPendingResponses
+const processQueue = (error?: unknown, token?: string) => {
+   failedQueue.forEach((prom) => {
+      if (error) {
+         prom.reject(error);
+      } else {
+         if (token) {
+            prom.config.headers!["Authorization"] = `Bearer ${token}`;
+         }
+         prom.resolve(prom.config);
+      }
+   });
+   failedQueue = [];
+};
+//Add pending responses to failedQueue
+const pushToFailedQueue = (originalReq: InternalAxiosRequestConfig) => {
+   return new Promise<InternalAxiosRequestConfig>((resolve, reject) => {
+      failedQueue.push({ resolve, reject, config: originalReq });
+   }).then((reqConfig) => axiosClient(reqConfig));
+};
+
+//retry the original request once we get the new accesToken
+const retryOriginalRequest = (
+   originalReq: InternalAxiosRequestConfig<unknown>
+) => {
+   isRefreshing = true;
+   const { setAuth, clearAuth } = useAuthStore.getState();
+   return new Promise((resolve, reject) => {
+      axiosClient
+         .post<{
+            accessToken: string;
+            expiresIn: number;
+         }>("/auth/refresh")
+         .then(({ data }) => {
+            setAuth({
+               ...useAuthStore.getState(),
+               jwtToken: data.accessToken,
+               expiresIn: data.expiresIn,
+            });
+            processQueue(null, data.accessToken);
+
+            originalReq.headers![
+               "Authorization"
+            ] = `Bearer ${data.accessToken}`;
+            resolve(axiosClient(originalReq));
+         })
+         .catch((refreshError) => {
+            processQueue(refreshError);
+            clearAuth();
+            if (!window.location.pathname.startsWith(ROUTES.AUTH.ROOT)) {
+               window.location.replace(ROUTES.AUTH.ROOT);
+            }
+            reject(refreshError);
+         })
+         .finally(() => {
+            isRefreshing = false;
+         });
+   });
+};
 
 export default axiosClient;
