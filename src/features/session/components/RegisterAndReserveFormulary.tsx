@@ -18,7 +18,7 @@ import type { SessionPackage } from "../../sessionPackage/models/package";
 import { splitBenefits } from "../utils/SessionPackageUtils";
 import StepsIndicator from "./StepsIndicator";
 import useGetAvailableSlots from "../hooks/useGetAvailableSlots";
-import type { RegisterAndReserveFormularyDto } from "../dtos/SessionDtos";
+import type { RegisterAndReserveFormularyDto } from "../dtos/sessionDtos";
 import {
    validateAll,
    type RegisterAndReserveFormularyErrors,

@@ -1,4 +1,4 @@
-import type { RegisterAndReserveFormularyDto } from "../dtos/SessionDtos";
+import type { RegisterAndReserveFormularyDto } from "../dtos/sessionDtos";
 
 export interface RegisterAndReserveFormularyErrors {
    fullName: string | null;
