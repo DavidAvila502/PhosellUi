@@ -24,6 +24,7 @@ const PUBLIC_PATHS = [
    "/auth/register",
    "/packages",
    "/sessions/available-slots",
+   "/sessions/registrations",
 ];
 
 /**

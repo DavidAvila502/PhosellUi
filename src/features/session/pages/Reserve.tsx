@@ -46,8 +46,8 @@ const Reserve = () => {
          />
 
          <div
-            className={`mx-auto flex flex-col items-center w-full gap-8 
-                     ${styles.innerwidth} ${styles.paddings} mt-[40px]`}
+            className={`mx-auto flex flex-col items-center w-full mt-[40px]
+                     ${styles.innerwidth} ${styles.paddings}`}
          >
             {isLoading ? (
                <div className="w-full h-[400px] flex items-center justify-center">
@@ -56,11 +56,13 @@ const Reserve = () => {
             ) : null}
 
             {!isOptionConfirmed && !data && !isLoading ? (
-               <ReserveOptionsFormulary
-                  selectedOption={selectedOption}
-                  handleChange={handleChange}
-                  buttonFunc={handleConfirm}
-               />
+               <div className="flex flex-col items-center justify-center gap-8">
+                  <ReserveOptionsFormulary
+                     selectedOption={selectedOption}
+                     handleChange={handleChange}
+                     buttonFunc={handleConfirm}
+                  />
+               </div>
             ) : null}
 
             {isOptionConfirmed && selectedOption == "opt1" && data != null ? (

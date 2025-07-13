@@ -24,6 +24,10 @@ import {
    type RegisterAndReserveFormularyErrors,
 } from "../utils/RegisterAndReserveValidations";
 import { Bounce, ToastContainer, toast } from "react-toastify";
+import useRegisterClientAndSession from "../hooks/useRegisterClientAndSession";
+import { ROLES } from "../../../app/constants/roles";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../../app/constants/routes";
 
 interface RegisterAndReserveFormularyProps {
    packages: SessionPackage[];
@@ -34,6 +38,8 @@ const steps: string[] = ["Contacto y cuenta", "Paquetes", "Sesión"];
 const RegisterAndReserveFormulary = ({
    packages,
 }: RegisterAndReserveFormularyProps) => {
+   const navigate = useNavigate();
+
    const [registerAndReserveData, setRegisterAndReserveData] =
       useState<RegisterAndReserveFormularyDto>({
          fullName: "",
@@ -42,6 +48,7 @@ const RegisterAndReserveFormulary = ({
          phoneCode: "+52",
          password: "",
          rePassword: "",
+         city: "",
          packageId: packages.length > 0 ? packages[0].id : "",
          location: "",
          date: "--",
@@ -56,6 +63,7 @@ const RegisterAndReserveFormulary = ({
          phoneCode: null,
          password: null,
          rePassword: null,
+         city: null,
          packageId: null,
          location: null,
          date: null,
@@ -66,6 +74,9 @@ const RegisterAndReserveFormulary = ({
 
    const { availableSlots, isSlotsLoading, getAvailableSlots } =
       useGetAvailableSlots();
+
+   const { loginResponseData, loadingLoginResponse, registerClientAndSession } =
+      useRegisterClientAndSession();
 
    useEffect(() => {
       if (registerAndReserveData.date != "--") {
@@ -96,6 +107,8 @@ const RegisterAndReserveFormulary = ({
    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
+      if (loadingLoginResponse) return;
+
       const formularyErrors: RegisterAndReserveFormularyErrors = validateAll(
          registerAndReserveData
       );
@@ -119,17 +132,23 @@ const RegisterAndReserveFormulary = ({
          });
          return;
       }
-
-      //TODO: api call to register session and user.
+      registerClientAndSession(registerAndReserveData);
    };
 
+   //TODO: change this into a hook
+   useEffect(() => {
+      if (loginResponseData?.role == ROLES.CLIENT)
+         navigate(ROUTES.CLIENT.ROOT, { replace: true });
+   }, [loginResponseData, navigate]);
+
+   //TODO: make this component responsive
    return (
       <>
          <ToastContainer />
          <form
             onSubmit={handleSubmit}
             className="flex flex-col items-center justify-center
-             rounded-[20px] pt-[8px] w-[80%] bg-white h-[700px]"
+             rounded-[20px] w-[80%] bg-white h-[700px]"
          >
             <div className="bg-blue-500 p-[10px] flex justify-center w-full ">
                <StepsIndicator stepList={steps} />
@@ -218,6 +237,17 @@ const RegisterAndReserveFormulary = ({
                   onChange={handleChange}
                   required={true}
                   isthereError={registerAndReserveErrors.rePassword}
+               />
+
+               <TropixField
+                  id="city"
+                  type="text"
+                  value={registerAndReserveData.city}
+                  textLabel="Ciudad de procedencia"
+                  width="w-[60%]"
+                  onChange={handleChange}
+                  required={true}
+                  isthereError={registerAndReserveErrors.city}
                />
 
                <div className="step-section divider mt-[40px] w-[90%] mx-auto">
@@ -327,6 +357,7 @@ const RegisterAndReserveFormulary = ({
                   type="submit"
                   color="bg-blue-400"
                   text="Continuar"
+                  isLoading={loadingLoginResponse}
                />
             </div>
          </form>

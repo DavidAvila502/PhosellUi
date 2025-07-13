@@ -7,6 +7,7 @@ export interface RegisterAndReserveFormularyErrors {
    phoneCode: string | null;
    password: string | null;
    rePassword: string | null;
+   city: string | null;
    packageId: string | null;
    location: string | null;
    date: string | null;
@@ -21,6 +22,7 @@ export const validateAll = (formularyData: RegisterAndReserveFormularyDto) => {
       phoneCode: null,
       password: null,
       rePassword: null,
+      city: null,
       packageId: null,
       location: null,
       date: null,

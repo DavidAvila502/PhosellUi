@@ -10,28 +10,31 @@ export const useLogin = () => {
    const [error, setError] = useState<Error | null>(null);
    const setAuth = useAuthStore((s) => s.setAuth);
 
-   const login = useCallback(async (loginDto: LoginDto) => {
-      setLoading(true);
-      setError(null);
+   const login = useCallback(
+      async (loginDto: LoginDto) => {
+         setLoading(true);
+         setError(null);
 
-      try {
-         const response: LoginResponseDto = await loginService(loginDto);
-         setData(response);
+         try {
+            const response: LoginResponseDto = await loginService(loginDto);
+            setData(response);
 
-         setAuth({
-            id: response.id,
-            fullName: response.fullName,
-            email: response.email,
-            role: response.role as Roles,
-            jwtToken: response.jwtToken,
-            expiresIn: response.expiresIn,
-         });
-      } catch (err) {
-         setError(err as Error);
-      } finally {
-         setLoading(false);
-      }
-   }, []);
+            setAuth({
+               id: response.id,
+               fullName: response.fullName,
+               email: response.email,
+               role: response.role as Roles,
+               jwtToken: response.jwtToken,
+               expiresIn: response.expiresIn,
+            });
+         } catch (err) {
+            setError(err as Error);
+         } finally {
+            setLoading(false);
+         }
+      },
+      [setAuth]
+   );
 
    return { data, isLoading, error, login };
 };

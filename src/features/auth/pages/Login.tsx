@@ -34,6 +34,7 @@ export function Login() {
       }
    };
 
+   //TODO: change this into a hook
    useEffect(() => {
       if (data?.role == ROLES.CLIENT)
          navigate(ROUTES.CLIENT.ROOT, { replace: true });
