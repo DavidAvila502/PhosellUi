@@ -13,7 +13,7 @@ export interface RegisterAndReserveFormularyErrors {
    date: string | null;
    time: string | null;
 }
-
+//TODO: Add a validation for the location length
 export const validateAll = (formularyData: RegisterAndReserveFormularyDto) => {
    const foundedErrors: RegisterAndReserveFormularyErrors = {
       fullName: null,

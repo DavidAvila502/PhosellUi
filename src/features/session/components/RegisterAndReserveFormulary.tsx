@@ -25,9 +25,8 @@ import {
 } from "../utils/RegisterAndReserveValidations";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import useRegisterClientAndSession from "../hooks/useRegisterClientAndSession";
-import { ROLES } from "../../../app/constants/roles";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../app/constants/routes";
+import useRedirectByRole from "../../../shared/hooks/useRedirectByRole";
+import type { Roles } from "../../auth/types/roles";
 
 interface RegisterAndReserveFormularyProps {
    packages: SessionPackage[];
@@ -38,8 +37,6 @@ const steps: string[] = ["Contacto y cuenta", "Paquetes", "Sesión"];
 const RegisterAndReserveFormulary = ({
    packages,
 }: RegisterAndReserveFormularyProps) => {
-   const navigate = useNavigate();
-
    const [registerAndReserveData, setRegisterAndReserveData] =
       useState<RegisterAndReserveFormularyDto>({
          fullName: "",
@@ -135,11 +132,7 @@ const RegisterAndReserveFormulary = ({
       registerClientAndSession(registerAndReserveData);
    };
 
-   //TODO: change this into a hook
-   useEffect(() => {
-      if (loginResponseData?.role == ROLES.CLIENT)
-         navigate(ROUTES.CLIENT.ROOT, { replace: true });
-   }, [loginResponseData, navigate]);
+   useRedirectByRole(loginResponseData?.role as Roles);
 
    //TODO: make this component responsive
    return (

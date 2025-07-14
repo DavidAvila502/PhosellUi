@@ -1,16 +1,13 @@
 import { useLogin } from "../hooks/useLogin";
-import { useEffect, useState, type ChangeEvent } from "react";
 import type { LoginDto } from "../dtos/authDtos";
-import { ROUTES } from "../../../app/constants/routes";
-import { useNavigate } from "react-router-dom";
-import { ROLES } from "../../../app/constants/roles";
 import ClassicButton from "../../../shared/components/ClassicButton";
 import ClassicLabelField from "../../../shared/components/ClassicLabelField";
 import loginImage from "../assets/login_image.jpg";
+import useRedirectByRole from "../../../shared/hooks/useRedirectByRole";
+import type { Roles } from "../types/roles";
+import { useState, type ChangeEvent } from "react";
 
 export function Login() {
-   const navigate = useNavigate();
-
    const [credentials, setCredentials] = useState<LoginDto>({
       email: "",
       password: "",
@@ -34,11 +31,7 @@ export function Login() {
       }
    };
 
-   //TODO: change this into a hook
-   useEffect(() => {
-      if (data?.role == ROLES.CLIENT)
-         navigate(ROUTES.CLIENT.ROOT, { replace: true });
-   }, [data, navigate]);
+   useRedirectByRole(data?.role as Roles);
 
    return (
       <div
