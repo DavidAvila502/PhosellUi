@@ -134,7 +134,6 @@ const RegisterAndReserveFormulary = ({
 
    useRedirectByRole(loginResponseData?.role as Roles);
 
-   //TODO: make this component responsive
    return (
       <>
          <ToastContainer />
@@ -292,6 +291,7 @@ const RegisterAndReserveFormulary = ({
                   onChange={handleChange}
                   required={true}
                   placeholder="Hotel,Playa o Dirección"
+                  isthereError={registerAndReserveErrors.location}
                />
 
                <div className="w-[60%] max-md:w-[95%]">

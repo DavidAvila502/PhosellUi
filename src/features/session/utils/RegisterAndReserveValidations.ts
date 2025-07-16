@@ -13,7 +13,7 @@ export interface RegisterAndReserveFormularyErrors {
    date: string | null;
    time: string | null;
 }
-//TODO: Add a validation for the location length
+
 export const validateAll = (formularyData: RegisterAndReserveFormularyDto) => {
    const foundedErrors: RegisterAndReserveFormularyErrors = {
       fullName: null,
@@ -39,6 +39,8 @@ export const validateAll = (formularyData: RegisterAndReserveFormularyDto) => {
    foundedErrors.date = validateDate(formularyData.date);
 
    foundedErrors.time = validateTime(formularyData.time);
+
+   foundedErrors.location = validateLoation(formularyData.location);
 
    return foundedErrors;
 };
@@ -69,6 +71,14 @@ const validateTime = (param: string) => {
    if (param == "") {
       return "Este campo es requerido.";
    }
+
+   return null;
+};
+
+const validateLoation = (param: string) => {
+   if (param == "") return "Este campo es requerido.";
+   if (param.length < 15)
+      return "La ubicación debe tener 15 caracteres minimo.";
 
    return null;
 };
