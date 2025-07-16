@@ -13,7 +13,7 @@ const StepsIndicator = ({ stepList }: StepsIndicatorProps) => {
    });
 
    return (
-      <ul className="steps text-xl">
+      <ul className="steps text-xl max-md:text-[15px]">
          {stepList.map((step, index) => (
             <li
                key={index}

@@ -141,7 +141,7 @@ const RegisterAndReserveFormulary = ({
          <form
             onSubmit={handleSubmit}
             className="flex flex-col items-center justify-center
-             rounded-[20px] w-[80%] bg-white h-[700px]"
+             rounded-[20px] w-[80%] bg-white h-[700px] max-lg:w-[100%]"
          >
             <div className="bg-blue-500 p-[10px] flex justify-center w-full ">
                <StepsIndicator stepList={steps} />
@@ -152,8 +152,11 @@ const RegisterAndReserveFormulary = ({
                className="flex flex-col items-center h-full w-full gap-3 overflow-auto scroll-smooth pb-[100px]"
             >
                <div className="step-section divider mt-[40px] w-[90%] mx-auto">
-                  <p className="text-2xl font-bold text-gray-600 text-center">
-                     Información de Contacto y Cuenta
+                  <p
+                     className="text-2xl font-bold text-gray-600 text-center
+                     max-md:text-[18px]"
+                  >
+                     Contacto y Cuenta
                   </p>
                </div>
 
@@ -162,7 +165,7 @@ const RegisterAndReserveFormulary = ({
                   textLabel="Nombre completo"
                   type="text"
                   value={registerAndReserveData.fullName}
-                  width="w-[60%]"
+                  width="w-[60%] max-md:w-[95%]"
                   onChange={handleChange}
                   required={true}
                   isthereError={registerAndReserveErrors.fullName}
@@ -173,12 +176,12 @@ const RegisterAndReserveFormulary = ({
                   textLabel="Email"
                   type="email"
                   value={registerAndReserveData.email}
-                  width="w-[60%]"
+                  width="w-[60%] max-md:w-[95%]"
                   onChange={handleChange}
                   required={true}
                />
 
-               <div className="w-[60%]">
+               <div className="w-[60%] max-md:w-[95%]">
                   <label
                      htmlFor="phone"
                      className="text-[18px] mb-[5px] text-gray-500"
@@ -192,7 +195,7 @@ const RegisterAndReserveFormulary = ({
                         name="phoneCode"
                         value={registerAndReserveData.phoneCode}
                         onChange={handleChange}
-                        className="select select-bordered w-[20%] 
+                        className="select select-bordered w-[30%] 
                         focus:outline-none focus:border-blue-400"
                      >
                         <option value="+1">+1</option>
@@ -216,7 +219,7 @@ const RegisterAndReserveFormulary = ({
                   type="password"
                   value={registerAndReserveData.password}
                   textLabel="Contraseña"
-                  width="w-[60%]"
+                  width="w-[60%] max-md:w-[95%]"
                   onChange={handleChange}
                   required={true}
                />
@@ -226,7 +229,7 @@ const RegisterAndReserveFormulary = ({
                   type="password"
                   value={registerAndReserveData.rePassword}
                   textLabel="Repetir contraseña"
-                  width="w-[60%]"
+                  width="w-[60%] max-md:w-[95%]"
                   onChange={handleChange}
                   required={true}
                   isthereError={registerAndReserveErrors.rePassword}
@@ -237,19 +240,22 @@ const RegisterAndReserveFormulary = ({
                   type="text"
                   value={registerAndReserveData.city}
                   textLabel="Ciudad de procedencia"
-                  width="w-[60%]"
+                  width="w-[60%] max-md:w-[95%]"
                   onChange={handleChange}
                   required={true}
                   isthereError={registerAndReserveErrors.city}
                />
 
                <div className="step-section divider mt-[40px] w-[90%] mx-auto">
-                  <p className="text-2xl font-bold text-gray-600 text-center">
+                  <p
+                     className="text-2xl font-bold text-gray-600 text-center
+                     max-md:text-[18px]"
+                  >
                      Seleccione un paquete
                   </p>
                </div>
 
-               <div className="w-[60%] flex flex-col gap-2">
+               <div className="w-[60%] max-md:w-[95%] flex flex-col gap-2">
                   {packages.map(
                      (currentPackage: SessionPackage, index: number) => (
                         <PackageOption
@@ -269,7 +275,10 @@ const RegisterAndReserveFormulary = ({
                </div>
 
                <div className="step-section divider mt-[40px] w-[90%] mx-auto">
-                  <p className="text-2xl font-bold text-gray-600 text-center">
+                  <p
+                     className="text-2xl font-bold text-gray-600 text-center
+                     max-md:text-[18px]"
+                  >
                      Sesión
                   </p>
                </div>
@@ -279,13 +288,13 @@ const RegisterAndReserveFormulary = ({
                   textLabel="Dónde"
                   type="text"
                   value={registerAndReserveData.location}
-                  width="w-[60%]"
+                  width="w-[60%] max-md:w-[95%]"
                   onChange={handleChange}
                   required={true}
                   placeholder="Hotel,Playa o Dirección"
                />
 
-               <div className="w-[60%]">
+               <div className="w-[60%] max-md:w-[95%]">
                   <TropixField
                      type="button"
                      popoverTarget="rdp-popover"
@@ -322,7 +331,7 @@ const RegisterAndReserveFormulary = ({
                   )}
                </div>
 
-               <div className="w-[60%] min-h-[200px] mt-[20px] flex flex-col gap-3">
+               <div className="w-[60%] max-md:w-[95%] min-h-[200px] mt-[20px] flex flex-col gap-3">
                   <p className="text-lg text-gray-500">
                      Hora <span className="text-red-400">*</span>
                   </p>
