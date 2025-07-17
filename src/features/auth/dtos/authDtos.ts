@@ -11,3 +11,19 @@ export interface LoginResponseDto {
    jwtToken: string;
    expiresIn: number;
 }
+
+export interface RegisterClientDto {
+   fullName: string;
+   email: string;
+   password: string;
+   phone: string;
+   city: string;
+}
+
+export interface RegisterClientResponseDto {
+   id: string;
+   fullName: string;
+   email: string;
+   phone: string;
+   city: string;
+}

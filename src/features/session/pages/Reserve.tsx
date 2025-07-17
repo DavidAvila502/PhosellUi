@@ -4,7 +4,7 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import ReserveOptionsFormulary from "../components/ReserveOptionsFormulary";
 import RegisterAndReserveFormulary from "../components/RegisterAndReserveFormulary";
 import useGetAllSessionPackages from "../../sessionPackage/hooks/useGetAllSessionPackages";
-import RegisterFormulary from "../components/RegisterFormulary";
+import RegisterFormulary from "../../auth/components/RegisterFormulary";
 
 export type ReserveOptionType = "opt1" | "opt2";
 
