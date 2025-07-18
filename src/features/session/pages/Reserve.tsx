@@ -4,7 +4,7 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import ReserveOptionsFormulary from "../components/ReserveOptionsFormulary";
 import RegisterAndReserveFormulary from "../components/RegisterAndReserveFormulary";
 import useGetAllSessionPackages from "../../sessionPackage/hooks/useGetAllSessionPackages";
-import RegisterFormulary from "../../auth/components/RegisterFormulary";
+import RegisterForm from "../../auth/components/RegisterForm";
 
 export type ReserveOptionType = "opt1" | "opt2";
 
@@ -71,7 +71,7 @@ const Reserve = () => {
             ) : null}
 
             {isOptionConfirmed && selectedOption == "opt2" ? (
-               <RegisterFormulary />
+               <RegisterForm />
             ) : null}
          </div>
       </div>

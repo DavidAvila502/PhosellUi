@@ -1,6 +1,6 @@
-import type { RegisterFormularyDataDTO } from "../dtos/authDtos";
+import type { RegisterClientFormDataDTO } from "../dtos/authDtos";
 
-export interface RegisterFormularyDataErrors {
+export interface RegisterFormDataErrors {
    fullName: string | null;
    email: string | null;
    password: string | null;
@@ -11,9 +11,9 @@ export interface RegisterFormularyDataErrors {
 }
 
 export const validateAll = (
-   formularyData: RegisterFormularyDataDTO
-): RegisterFormularyDataErrors => {
-   const foundErrors: RegisterFormularyDataErrors = {
+   formularyData: RegisterClientFormDataDTO
+): RegisterFormDataErrors => {
+   const foundErrors: RegisterFormDataErrors = {
       fullName: null,
       email: null,
       password: null,

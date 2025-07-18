@@ -12,7 +12,7 @@ export interface LoginResponseDto {
    expiresIn: number;
 }
 
-export interface RegisterFormularyDataDTO {
+export interface RegisterClientFormDataDTO {
    fullName: string;
    email: string;
    password: string;

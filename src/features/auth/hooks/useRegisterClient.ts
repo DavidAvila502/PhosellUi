@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import type {
-   RegisterClientDto,
+   RegisterClientFormDataDTO,
    RegisterClientResponseDto,
 } from "../dtos/authDtos";
 import RegisterClientService from "../services/registerClientService";
@@ -15,10 +15,11 @@ const useRegisterCLient = () => {
       useState<boolean>(false);
 
    const registerClient = useCallback(
-      async (registerClientData: RegisterClientDto) => {
+      async (registerClientData: RegisterClientFormDataDTO) => {
          try {
             setRegisterClientLoading(true);
             setRegisterClientError(null);
+            setRegisterClientResponseData(null);
 
             const response: RegisterClientResponseDto =
                await RegisterClientService(registerClientData);
