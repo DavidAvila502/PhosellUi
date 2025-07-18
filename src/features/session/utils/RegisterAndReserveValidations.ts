@@ -15,7 +15,7 @@ export interface RegisterAndReserveFormularyErrors {
 }
 
 export const validateAll = (formularyData: RegisterAndReserveFormularyDto) => {
-   const foundedErrors: RegisterAndReserveFormularyErrors = {
+   const foundErrors: RegisterAndReserveFormularyErrors = {
       fullName: null,
       email: null,
       phone: null,
@@ -29,20 +29,20 @@ export const validateAll = (formularyData: RegisterAndReserveFormularyDto) => {
       time: null,
    };
 
-   foundedErrors.fullName = validateFullName(formularyData.fullName);
+   foundErrors.fullName = validateFullName(formularyData.fullName);
 
-   foundedErrors.rePassword = validateRepassword(
+   foundErrors.rePassword = validateRepassword(
       formularyData.rePassword,
       formularyData.password
    );
 
-   foundedErrors.date = validateDate(formularyData.date);
+   foundErrors.date = validateDate(formularyData.date);
 
-   foundedErrors.time = validateTime(formularyData.time);
+   foundErrors.time = validateTime(formularyData.time);
 
-   foundedErrors.location = validateLoation(formularyData.location);
+   foundErrors.location = validateLoation(formularyData.location);
 
-   return foundedErrors;
+   return foundErrors;
 };
 
 const validateFullName = (param: string) => {

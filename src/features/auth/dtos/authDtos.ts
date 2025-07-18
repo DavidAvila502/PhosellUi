@@ -12,6 +12,16 @@ export interface LoginResponseDto {
    expiresIn: number;
 }
 
+export interface RegisterFormularyDataDTO {
+   fullName: string;
+   email: string;
+   password: string;
+   rePassword: string;
+   phone: string;
+   phoneCode: string;
+   city: string;
+}
+
 export interface RegisterClientDto {
    fullName: string;
    email: string;

@@ -1,11 +1,76 @@
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import ClassicButton from "../../../shared/components/ClassicButton";
 import TropixField from "../../../shared/components/TropixField";
+import type { RegisterFormularyDataDTO } from "../dtos/authDtos";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import {
+   type RegisterFormularyDataErrors,
+   validateAll,
+} from "../utils/registerFormularyValidations";
 
 const RegisterFormulary = () => {
+   const [registerFormularyData, setRegisterFormularyData] =
+      useState<RegisterFormularyDataDTO>({
+         fullName: "",
+         email: "",
+         password: "",
+         rePassword: "",
+         phoneCode: "+52",
+         phone: "",
+         city: "",
+      });
+
+   const [registerFormularyErrors, setRegisterFormularyErrors] =
+      useState<RegisterFormularyDataErrors>({
+         fullName: null,
+         email: null,
+         password: null,
+         rePassword: null,
+         phoneCode: null,
+         phone: null,
+         city: null,
+      });
+
+   const handleChange = (
+      e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+   ) => {
+      const { name, value } = e.target;
+
+      setRegisterFormularyData((prev) => ({ ...prev, [name]: value }));
+   };
+
+   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      const formularyErrors = validateAll(registerFormularyData);
+
+      const hasSomeError: boolean = Object.values(formularyErrors).some(
+         (value) => value != null
+      );
+
+      if (hasSomeError) {
+         setRegisterFormularyErrors(formularyErrors);
+         toast.error("Parece que el formulario contiene errores.", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+         });
+
+         return;
+      }
+   };
+
    return (
       <>
+         <ToastContainer />
          <form
-            action=""
+            onSubmit={handleSubmit}
             className="flex flex-col w-[80%] min-h-[200px] bg-white
                 gap-3 items-center justify-center max-lg:w-[100%] pb-[30px]"
          >
@@ -22,21 +87,22 @@ const RegisterFormulary = () => {
                id="fullName"
                textLabel="Nombre completo"
                type="text"
-               //    value={registerAndReserveData.fullName}
+               value={registerFormularyData.fullName}
                width="w-[60%] max-md:w-[95%]"
-               //    onChange={handleChange}
+               onChange={handleChange}
                required={true}
-               //    isthereError={registerAndReserveErrors.fullName}
+               isthereError={registerFormularyErrors.fullName}
             />
 
             <TropixField
                id="email"
                textLabel="Email"
                type="email"
-               //    value={registerAndReserveData.email}
+               value={registerFormularyData.email}
                width="w-[60%] max-md:w-[95%]"
-               //    onChange={handleChange}
+               onChange={handleChange}
                required={true}
+               isthereError={registerFormularyErrors.email}
             />
 
             <div className="w-[60%] max-md:w-[95%]">
@@ -51,8 +117,8 @@ const RegisterFormulary = () => {
                   <select
                      id="phoneCode"
                      name="phoneCode"
-                     // value={registerAndReserveData.phoneCode}
-                     // onChange={handleChange}
+                     value={registerFormularyData.phoneCode}
+                     onChange={handleChange}
                      className="select select-bordered w-[30%] 
                         focus:outline-none focus:border-blue-400"
                   >
@@ -64,10 +130,11 @@ const RegisterFormulary = () => {
                   <TropixField
                      id="phone"
                      type="text"
-                     // value={registerAndReserveData.phone}
+                     value={registerFormularyData.phone}
                      width="w-[100%]"
-                     // onChange={handleChange}
+                     onChange={handleChange}
                      required={true}
+                     isthereError={registerFormularyErrors.phone}
                   />
                </div>
             </div>
@@ -75,33 +142,34 @@ const RegisterFormulary = () => {
             <TropixField
                id="password"
                type="password"
-               //    value={registerAndReserveData.password}
+               value={registerFormularyData.password}
                textLabel="Contraseña"
                width="w-[60%] max-md:w-[95%]"
-               //    onChange={handleChange}
+               onChange={handleChange}
                required={true}
+               isthereError={registerFormularyErrors.password}
             />
 
             <TropixField
                id="rePassword"
                type="password"
-               //    value={registerAndReserveData.rePassword}
+               value={registerFormularyData.rePassword}
                textLabel="Repetir contraseña"
                width="w-[60%] max-md:w-[95%]"
-               //    onChange={handleChange}
+               onChange={handleChange}
                required={true}
-               //    isthereError={registerAndReserveErrors.rePassword}
+               isthereError={registerFormularyErrors.rePassword}
             />
 
             <TropixField
                id="city"
                type="text"
-               //    value={registerAndReserveData.city}
+               value={registerFormularyData.city}
                textLabel="Ciudad de procedencia"
                width="w-[60%] max-md:w-[95%]"
-               //    onChange={handleChange}
+               onChange={handleChange}
                required={true}
-               //    isthereError={registerAndReserveErrors.city}
+               isthereError={registerFormularyErrors.city}
             />
 
             <ClassicButton text="Aceptar" type="submit" color="bg-blue-400" />
