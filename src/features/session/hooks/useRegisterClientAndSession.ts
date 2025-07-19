@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { type LoginResponseDto } from "../../auth/dtos/authDtos";
-import type { RegisterAndReserveFormularyDto } from "../dtos/sessionDtos";
+import type { RegisterAndReserveFormDto } from "../dtos/sessionDtos";
 import registerClientAndSessionService from "../services/registerClientAndSessionService";
 import { useAuthStore } from "../../auth/store/useAuthStore";
 import type { Roles } from "../../auth/types/roles";
@@ -16,12 +16,12 @@ const useRegisterClientAndSession = () => {
    const setAuth = useAuthStore((s) => s.setAuth);
 
    const registerClientAndSession = useCallback(
-      async (dataFormulary: RegisterAndReserveFormularyDto) => {
+      async (dataForm: RegisterAndReserveFormDto) => {
          try {
             setLoadingLoginResponse(true);
 
             const response: LoginResponseDto =
-               await registerClientAndSessionService(dataFormulary);
+               await registerClientAndSessionService(dataForm);
 
             setLoginResponseData(response);
 

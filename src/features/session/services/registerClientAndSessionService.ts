@@ -1,12 +1,12 @@
 import type { LoginResponseDto } from "../../auth/dtos/authDtos";
 import { registerClientAndSession } from "../adapters/sessionAdapter";
 import type {
-   RegisterAndReserveFormularyDto,
+   RegisterAndReserveFormDto,
    SessionAndClientInsertDto,
 } from "../dtos/sessionDtos";
 
 const registerClientAndSessionService = async (
-   data: RegisterAndReserveFormularyDto
+   data: RegisterAndReserveFormDto
 ): Promise<LoginResponseDto> => {
    //Parse dtos
    const sessionAndClientInsertDto: SessionAndClientInsertDto = {

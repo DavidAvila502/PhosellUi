@@ -1,19 +1,19 @@
 import { FaceSmileIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import ReserveOption from "../components/ReserveOption";
+import ReserveOption from "./ReserveOption";
 import type { ReserveOptionType } from "../pages/Reserve";
 import ClassicButton from "../../../shared/components/ClassicButton";
 
-interface ReserveOptionsFormularyProps {
+interface ReserveOptionsFormProps {
    selectedOption: ReserveOptionType;
    handleChange: React.ChangeEventHandler<HTMLInputElement> | undefined;
    buttonFunc: () => void;
 }
 
-const ReserveOptionsFormulary = ({
+const ReserveOptionsForm = ({
    selectedOption,
    handleChange,
    buttonFunc,
-}: ReserveOptionsFormularyProps) => {
+}: ReserveOptionsFormProps) => {
    return (
       <>
          <ReserveOption
@@ -45,4 +45,4 @@ const ReserveOptionsFormulary = ({
    );
 };
 
-export default ReserveOptionsFormulary;
+export default ReserveOptionsForm;

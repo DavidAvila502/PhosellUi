@@ -11,7 +11,7 @@ export interface RegisterFormDataErrors {
 }
 
 export const validateAll = (
-   formularyData: RegisterClientFormDataDTO
+   formData: RegisterClientFormDataDTO
 ): RegisterFormDataErrors => {
    const foundErrors: RegisterFormDataErrors = {
       fullName: null,
@@ -23,14 +23,14 @@ export const validateAll = (
       city: null,
    };
 
-   foundErrors.fullName = validateFullName(formularyData.fullName);
-   foundErrors.email = validateEmail(formularyData.email);
-   foundErrors.password = validatePassword(formularyData.password);
-   foundErrors.phone = validatePhone(formularyData.phone);
-   foundErrors.city = validateCity(formularyData.city);
+   foundErrors.fullName = validateFullName(formData.fullName);
+   foundErrors.email = validateEmail(formData.email);
+   foundErrors.password = validatePassword(formData.password);
+   foundErrors.phone = validatePhone(formData.phone);
+   foundErrors.city = validateCity(formData.city);
    foundErrors.rePassword = validateRepassword(
-      formularyData.rePassword,
-      formularyData.password
+      formData.rePassword,
+      formData.password
    );
 
    return foundErrors;

@@ -1,6 +1,6 @@
-import type { RegisterAndReserveFormularyDto } from "../dtos/sessionDtos";
+import type { RegisterAndReserveFormDto } from "../dtos/sessionDtos";
 
-export interface RegisterAndReserveFormularyErrors {
+export interface RegisterAndReserveFormErrors {
    fullName: string | null;
    email: string | null;
    phone: string | null;
@@ -14,8 +14,8 @@ export interface RegisterAndReserveFormularyErrors {
    time: string | null;
 }
 
-export const validateAll = (formularyData: RegisterAndReserveFormularyDto) => {
-   const foundErrors: RegisterAndReserveFormularyErrors = {
+export const validateAll = (formData: RegisterAndReserveFormDto) => {
+   const foundErrors: RegisterAndReserveFormErrors = {
       fullName: null,
       email: null,
       phone: null,
@@ -29,18 +29,18 @@ export const validateAll = (formularyData: RegisterAndReserveFormularyDto) => {
       time: null,
    };
 
-   foundErrors.fullName = validateFullName(formularyData.fullName);
+   foundErrors.fullName = validateFullName(formData.fullName);
 
    foundErrors.rePassword = validateRepassword(
-      formularyData.rePassword,
-      formularyData.password
+      formData.rePassword,
+      formData.password
    );
 
-   foundErrors.date = validateDate(formularyData.date);
+   foundErrors.date = validateDate(formData.date);
 
-   foundErrors.time = validateTime(formularyData.time);
+   foundErrors.time = validateTime(formData.time);
 
-   foundErrors.location = validateLoation(formularyData.location);
+   foundErrors.location = validateLoation(formData.location);
 
    return foundErrors;
 };

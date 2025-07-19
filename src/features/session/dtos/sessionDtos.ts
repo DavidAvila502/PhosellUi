@@ -1,4 +1,4 @@
-export interface RegisterAndReserveFormularyDto {
+export interface RegisterAndReserveFormDto {
    fullName: string;
    email: string;
    phone: string;

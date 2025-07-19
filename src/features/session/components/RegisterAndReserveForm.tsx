@@ -18,27 +18,25 @@ import type { SessionPackage } from "../../sessionPackage/models/package";
 import { splitBenefits } from "../utils/SessionPackageUtils";
 import StepsIndicator from "./StepsIndicator";
 import useGetAvailableSlots from "../hooks/useGetAvailableSlots";
-import type { RegisterAndReserveFormularyDto } from "../dtos/sessionDtos";
+import type { RegisterAndReserveFormDto } from "../dtos/sessionDtos";
 import {
    validateAll,
-   type RegisterAndReserveFormularyErrors,
+   type RegisterAndReserveFormErrors,
 } from "../utils/RegisterAndReserveValidations";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import useRegisterClientAndSession from "../hooks/useRegisterClientAndSession";
 import useRedirectByRole from "../../../shared/hooks/useRedirectByRole";
 import type { Roles } from "../../auth/types/roles";
 
-interface RegisterAndReserveFormularyProps {
+interface RegisterAndReserveFormProps {
    packages: SessionPackage[];
 }
 
 const steps: string[] = ["Contacto y cuenta", "Paquetes", "Sesión"];
 
-const RegisterAndReserveFormulary = ({
-   packages,
-}: RegisterAndReserveFormularyProps) => {
+const RegisterAndReserveForm = ({ packages }: RegisterAndReserveFormProps) => {
    const [registerAndReserveData, setRegisterAndReserveData] =
-      useState<RegisterAndReserveFormularyDto>({
+      useState<RegisterAndReserveFormDto>({
          fullName: "",
          email: "",
          phone: "",
@@ -53,7 +51,7 @@ const RegisterAndReserveFormulary = ({
       });
 
    const [registerAndReserveErrors, setRegisterAndReserveErrors] =
-      useState<RegisterAndReserveFormularyErrors>({
+      useState<RegisterAndReserveFormErrors>({
          fullName: null,
          email: null,
          phone: null,
@@ -106,16 +104,16 @@ const RegisterAndReserveFormulary = ({
 
       if (loadingLoginResponse) return;
 
-      const formularyErrors: RegisterAndReserveFormularyErrors = validateAll(
+      const formErrors: RegisterAndReserveFormErrors = validateAll(
          registerAndReserveData
       );
 
-      const hasError: boolean = Object.values(formularyErrors).some(
+      const hasError: boolean = Object.values(formErrors).some(
          (value) => value != null
       );
 
       if (hasError) {
-         setRegisterAndReserveErrors(formularyErrors);
+         setRegisterAndReserveErrors(formErrors);
          toast.error("Parece que el formulario contiene errores.", {
             position: "top-center",
             autoClose: 5000,
@@ -367,4 +365,4 @@ const RegisterAndReserveFormulary = ({
    );
 };
 
-export default RegisterAndReserveFormulary;
+export default RegisterAndReserveForm;

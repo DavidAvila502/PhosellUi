@@ -6,14 +6,14 @@ import type {
 } from "../dtos/authDtos";
 
 const RegisterClientService = async (
-   registerClientFormularyData: RegisterClientFormDataDTO
+   registerClientFormData: RegisterClientFormDataDTO
 ): Promise<RegisterClientResponseDto> => {
    const registerClientDto: RegisterClientDto = {
-      fullName: registerClientFormularyData.fullName,
-      email: registerClientFormularyData.email,
-      password: registerClientFormularyData.password,
-      phone: `${registerClientFormularyData.phoneCode} ${registerClientFormularyData.phone}`,
-      city: registerClientFormularyData.city,
+      fullName: registerClientFormData.fullName,
+      email: registerClientFormData.email,
+      password: registerClientFormData.password,
+      phone: `${registerClientFormData.phoneCode} ${registerClientFormData.phone}`,
+      city: registerClientFormData.city,
    };
 
    return await registerClient(registerClientDto);

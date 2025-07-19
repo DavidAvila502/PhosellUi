@@ -1,8 +1,8 @@
 import SectionTitle from "../../home/components/SectionTitle";
 import styles from "../../../styles/customStyles";
 import { useEffect, useState, type ChangeEvent } from "react";
-import ReserveOptionsFormulary from "../components/ReserveOptionsFormulary";
-import RegisterAndReserveFormulary from "../components/RegisterAndReserveFormulary";
+import ReserveOptionsForm from "../components/ReserveOptionsForm";
+import RegisterAndReserveForm from "../components/RegisterAndReserveForm";
 import useGetAllSessionPackages from "../../sessionPackage/hooks/useGetAllSessionPackages";
 import RegisterForm from "../../auth/components/RegisterForm";
 
@@ -58,7 +58,7 @@ const Reserve = () => {
 
             {!isOptionConfirmed && !data && !isLoading ? (
                <div className="flex flex-col items-center justify-center gap-8">
-                  <ReserveOptionsFormulary
+                  <ReserveOptionsForm
                      selectedOption={selectedOption}
                      handleChange={handleChange}
                      buttonFunc={handleConfirm}
@@ -67,7 +67,7 @@ const Reserve = () => {
             ) : null}
 
             {isOptionConfirmed && selectedOption == "opt1" && data != null ? (
-               <RegisterAndReserveFormulary packages={data} />
+               <RegisterAndReserveForm packages={data} />
             ) : null}
 
             {isOptionConfirmed && selectedOption == "opt2" ? (
