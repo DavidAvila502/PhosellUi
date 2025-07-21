@@ -6,6 +6,7 @@ import axios, {
 } from "axios";
 import { useAuthStore } from "../../features/auth/store/useAuthStore";
 import { ROUTES } from "../../app/constants/routes";
+import type { ApiErrorResponseDTo } from "../../shared/types";
 
 const axiosClient: AxiosInstance = axios.create({
    baseURL:
@@ -53,25 +54,25 @@ axiosClient.interceptors.request.use(
    }
 );
 
-// TODO: No all 401 errors are an jwt expiration error
-// due to this we need to be sure about the right case an apply the rules
-// and avoid unesscesary refreshing calls
-
-/**
- * Intercepts each response with an 401 (token expiration error) error
- * store the pedding api calls, refresh the acces token
- * and finally retry all again
- */
-
 // flag
 let isRefreshing = false;
 
 axiosClient.interceptors.response.use(
    (res: AxiosResponse) => res,
-   (err: AxiosError) => {
+   (err: AxiosError<ApiErrorResponseDTo>) => {
       const originalReq = err.config as InternalAxiosRequestConfig & {
          _retry?: boolean;
       };
+
+      if (err.response?.status !== 401 || !err.response.data) {
+         return Promise.reject(err);
+      }
+
+      const errorCode = err.response.data.code;
+
+      if (errorCode !== "TOKEN_EXPIRED") {
+         return Promise.reject(err);
+      }
 
       if (originalReq._retry) {
          return Promise.reject(err);

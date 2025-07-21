@@ -5,7 +5,7 @@ import ClassicLabelField from "../../../shared/components/ClassicLabelField";
 import loginImage from "../assets/login_image.jpg";
 import useRedirectByRole from "../../../shared/hooks/useRedirectByRole";
 import type { Roles } from "../types/roles";
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 
 export function Login() {
    const [credentials, setCredentials] = useState<LoginDto>({
@@ -13,7 +13,7 @@ export function Login() {
       password: "",
    });
 
-   const { data, isLoading, login } = useLogin();
+   const { data, isLoading, login, error } = useLogin();
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -30,6 +30,12 @@ export function Login() {
          login(credentials);
       }
    };
+
+   useEffect(() => {
+      if (error?.response?.data) {
+         console.log(error.response.data);
+      }
+   }, [error]);
 
    useRedirectByRole(data?.role as Roles);
 
