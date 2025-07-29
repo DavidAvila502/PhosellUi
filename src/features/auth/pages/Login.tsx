@@ -6,6 +6,8 @@ import loginImage from "../assets/login_image.jpg";
 import useRedirectByRole from "../../../shared/hooks/useRedirectByRole";
 import type { Roles } from "../types/roles";
 import { useEffect, useState, type ChangeEvent } from "react";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import { getApiErrorMessage } from "../../../shared/utils/apiCodeErrors";
 
 export function Login() {
    const [credentials, setCredentials] = useState<LoginDto>({
@@ -33,78 +35,93 @@ export function Login() {
 
    useEffect(() => {
       if (error?.response?.data) {
-         console.log(error.response.data);
+         console.error(error);
+         toast.error(getApiErrorMessage(error.response.data.code), {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+         });
       }
    }, [error]);
 
    useRedirectByRole(data?.role as Roles);
 
    return (
-      <div
-         className={`flex flex-col items-center justify-center min-h-[calc(100vh-70px)]`}
-      >
+      <>
+         <ToastContainer />
+
          <div
-            className="grid grid-cols-[1fr_2fr] rounded-[20px] h-[500px] w-[900px] border-2 border-gray-100 shadow-xl
-                  max-lg:w-[700px] max-md:grid-cols-[0fr_1fr] max-md:w-[70%] max-sm:w-[90%]"
+            className={`flex flex-col items-center justify-center min-h-[calc(100vh-70px)]`}
          >
-            <div className="relative w-full h-full">
-               <img
-                  src={loginImage}
-                  alt="loginImage"
-                  className="absolute inset-0 object-cover h-full w-full rounded-tl-[20px] rounded-bl-[20px]"
-               />
-            </div>
+            <div
+               className="grid grid-cols-[1fr_2fr] rounded-[20px] h-[500px] w-[900px] border-2 border-gray-100 shadow-xl
+                  max-lg:w-[700px] max-md:grid-cols-[0fr_1fr] max-md:w-[70%] max-sm:w-[90%]"
+            >
+               <div className="relative w-full h-full">
+                  <img
+                     src={loginImage}
+                     alt="loginImage"
+                     className="absolute inset-0 object-cover h-full w-full rounded-tl-[20px] rounded-bl-[20px]"
+                  />
+               </div>
 
-            <div className="w-full h-full bg-white flex items-center justify-center rounded-[20px]">
-               {/* Login form */}
+               <div className="w-full h-full bg-white flex items-center justify-center rounded-[20px]">
+                  {/* Login form */}
 
-               <div
-                  className="bg-white flex items-center rounded-br-[20px] rounded-tr-[20px] h-full px-[40px] py-[60px]
+                  <div
+                     className="bg-white flex items-center rounded-br-[20px] rounded-tr-[20px] h-full px-[40px] py-[60px]
                         justify-center flex-col w-[350px] max-sm:w-full"
-               >
-                  <form
-                     onSubmit={handleSubmit}
-                     className="flex flex-col gap-9 w-full"
                   >
-                     <p className="text-blue-400 font-bold text-2xl">
-                        Iniciar sesión
-                     </p>
+                     <form
+                        onSubmit={handleSubmit}
+                        className="flex flex-col gap-9 w-full"
+                     >
+                        <p className="text-blue-400 font-bold text-2xl">
+                           Iniciar sesión
+                        </p>
 
-                     <div className="flex flex-col gap-2 items-start">
-                        <ClassicLabelField
-                           id="emial"
-                           name="email"
-                           type="email"
-                           value={credentials.email}
-                           textLabel="Email"
-                           onChange={handleChange}
-                           required={true}
+                        <div className="flex flex-col gap-2 items-start">
+                           <ClassicLabelField
+                              id="emial"
+                              name="email"
+                              type="email"
+                              value={credentials.email}
+                              textLabel="Email"
+                              onChange={handleChange}
+                              required={true}
+                           />
+                        </div>
+
+                        <div className="flex flex-col gap-2 items-start">
+                           <ClassicLabelField
+                              id="password"
+                              name="password"
+                              type="password"
+                              value={credentials.password}
+                              textLabel="Password"
+                              onChange={handleChange}
+                              required={true}
+                           />
+                        </div>
+
+                        <ClassicButton
+                           text="Enviar"
+                           color="bg-blue-400"
+                           type="submit"
+                           style="rounded-[10px]"
+                           isLoading={isLoading}
                         />
-                     </div>
-
-                     <div className="flex flex-col gap-2 items-start">
-                        <ClassicLabelField
-                           id="password"
-                           name="password"
-                           type="password"
-                           value={credentials.password}
-                           textLabel="Password"
-                           onChange={handleChange}
-                           required={true}
-                        />
-                     </div>
-
-                     <ClassicButton
-                        text="Enviar"
-                        color="bg-blue-400"
-                        type="submit"
-                        style="rounded-[10px]"
-                        isLoading={isLoading}
-                     />
-                  </form>
+                     </form>
+                  </div>
                </div>
             </div>
          </div>
-      </div>
+      </>
    );
 }

@@ -27,6 +27,9 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import useRegisterClientAndSession from "../hooks/useRegisterClientAndSession";
 import useRedirectByRole from "../../../shared/hooks/useRedirectByRole";
 import type { Roles } from "../../auth/types/roles";
+import { getApiErrorMessage } from "../../../shared/utils/apiCodeErrors";
+import type { AxiosError } from "axios";
+import type { ApiErrorResponseDTo } from "../../../shared/types";
 
 interface RegisterAndReserveFormProps {
    packages: SessionPackage[];
@@ -67,11 +70,15 @@ const RegisterAndReserveForm = ({ packages }: RegisterAndReserveFormProps) => {
 
    const [isDayPickerOpen, setIsDayPickerOpen] = useState(false);
 
-   const { availableSlots, isSlotsLoading, getAvailableSlots } =
+   const { availableSlots, isSlotsLoading, slotsError, getAvailableSlots } =
       useGetAvailableSlots();
 
-   const { loginResponseData, loadingLoginResponse, registerClientAndSession } =
-      useRegisterClientAndSession();
+   const {
+      loginResponseData,
+      loadingLoginResponse,
+      loginResponseError,
+      registerClientAndSession,
+   } = useRegisterClientAndSession();
 
    useEffect(() => {
       if (registerAndReserveData.date != "--") {
@@ -129,6 +136,31 @@ const RegisterAndReserveForm = ({ packages }: RegisterAndReserveFormProps) => {
       }
       registerClientAndSession(registerAndReserveData);
    };
+
+   useEffect(() => {
+      const setToasError = (error: AxiosError<ApiErrorResponseDTo>) => {
+         console.error(error);
+         toast.error(getApiErrorMessage(error.response?.data.code), {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+         });
+      };
+
+      if (slotsError?.response?.data) {
+         setToasError(slotsError);
+      }
+
+      if (loginResponseError?.response?.data) {
+         setToasError(loginResponseError);
+      }
+   }, [slotsError, loginResponseError]);
 
    useRedirectByRole(loginResponseData?.role as Roles);
 

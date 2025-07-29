@@ -8,6 +8,7 @@ import {
    validateAll,
 } from "../utils/registerFormValidations";
 import useRegisterCLient from "../hooks/useRegisterClient";
+import { getApiErrorMessage } from "../../../shared/utils/apiCodeErrors";
 
 const RegisterForm = () => {
    const [registerFormData, setRegisterFormData] =
@@ -78,8 +79,6 @@ const RegisterForm = () => {
       registerClient(registerFormData);
    };
 
-   //TODO: Handle te right error code from the api, and indicate the exact problem using the custom error codes of the API
-
    useEffect(() => {
       if (registerCLientResponseData) {
          toast.success("¡Registro exitoso!", {
@@ -94,11 +93,27 @@ const RegisterForm = () => {
             transition: Bounce,
          });
       }
+   }, [registerCLientResponseData]);
 
-      if (registerClientError) {
-         console.log(`Error: ${registerClientError}`);
+   useEffect(() => {
+      if (registerClientError?.response?.data) {
+         console.error(registerClientError);
+         toast.error(
+            getApiErrorMessage(registerClientError.response?.data.code),
+            {
+               position: "top-center",
+               autoClose: 5000,
+               hideProgressBar: false,
+               closeOnClick: false,
+               pauseOnHover: true,
+               draggable: true,
+               progress: undefined,
+               theme: "colored",
+               transition: Bounce,
+            }
+         );
       }
-   }, [registerCLientResponseData, registerClientError]);
+   }, [registerClientError]);
 
    return (
       <>
