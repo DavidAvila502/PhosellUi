@@ -3,11 +3,16 @@ import type { LoginDto, LoginResponseDto } from "../dtos/authDtos";
 import { loginService } from "../services/loginService";
 import { useAuthStore } from "../store/useAuthStore";
 import type { Roles } from "../types/roles";
+import { AxiosError } from "axios";
+import type { ApiErrorResponseDTo } from "../../../shared/types";
+import axios from "axios";
 
 export const useLogin = () => {
    const [data, setData] = useState<LoginResponseDto | null>(null);
    const [isLoading, setLoading] = useState(false);
-   const [error, setError] = useState<Error | null>(null);
+   const [error, setError] = useState<AxiosError<ApiErrorResponseDTo> | null>(
+      null
+   );
    const setAuth = useAuthStore((s) => s.setAuth);
 
    const login = useCallback(
@@ -28,7 +33,20 @@ export const useLogin = () => {
                expiresIn: response.expiresIn,
             });
          } catch (err) {
-            setError(err as Error);
+            if (axios.isAxiosError<ApiErrorResponseDTo>(err)) {
+               setError(err);
+               return;
+            }
+
+            setError(
+               new AxiosError<ApiErrorResponseDTo>(
+                  "Unexpected error",
+                  undefined,
+                  undefined,
+                  undefined,
+                  undefined
+               )
+            );
          } finally {
             setLoading(false);
          }

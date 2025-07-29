@@ -5,6 +5,8 @@ import ReserveOptionsForm from "../components/ReserveOptionsForm";
 import RegisterAndReserveForm from "../components/RegisterAndReserveForm";
 import useGetAllSessionPackages from "../../sessionPackage/hooks/useGetAllSessionPackages";
 import RegisterForm from "../../auth/components/RegisterForm";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import { getApiErrorMessage } from "../../../shared/utils/apiCodeErrors";
 
 export type ReserveOptionType = "opt1" | "opt2";
 
@@ -34,47 +36,67 @@ const Reserve = () => {
 
    useEffect(() => {
       if (error) {
-         setIsOptionConfirmed(false);
+         console.error(error);
+         toast.error(getApiErrorMessage(error.response?.data.code), {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+         });
       }
+
+      setIsOptionConfirmed(false);
    }, [error]);
 
    return (
-      <div className="flex w-full flex-col items-center min-h-[calc(100vh-70px)] bg-gray-50">
-         <SectionTitle
-            text={
-               selectedOption == "opt1" ? "Regístrate y reserva" : "Regístrate"
-            }
-         />
+      <>
+         <ToastContainer />
+         <div className="flex w-full flex-col items-center min-h-[calc(100vh-70px)] bg-gray-50">
+            <SectionTitle
+               text={
+                  selectedOption == "opt1"
+                     ? "Regístrate y reserva"
+                     : "Regístrate"
+               }
+            />
 
-         <div
-            className={`mx-auto flex flex-col items-center w-full mt-[40px]
+            <div
+               className={`mx-auto flex flex-col items-center w-full mt-[40px]
                      ${styles.innerwidth} ${styles.paddings}`}
-         >
-            {isLoading ? (
-               <div className="w-full h-[400px] flex items-center justify-center">
-                  <span className="loading loading-spinner loading-xl text-primary"></span>
-               </div>
-            ) : null}
+            >
+               {isLoading ? (
+                  <div className="w-full h-[400px] flex items-center justify-center">
+                     <span className="loading loading-spinner loading-xl text-primary"></span>
+                  </div>
+               ) : null}
 
-            {!isOptionConfirmed && !data && !isLoading ? (
-               <div className="flex flex-col items-center justify-center gap-8">
-                  <ReserveOptionsForm
-                     selectedOption={selectedOption}
-                     handleChange={handleChange}
-                     buttonFunc={handleConfirm}
-                  />
-               </div>
-            ) : null}
+               {!isOptionConfirmed && !data && !isLoading ? (
+                  <div className="flex flex-col items-center justify-center gap-8">
+                     <ReserveOptionsForm
+                        selectedOption={selectedOption}
+                        handleChange={handleChange}
+                        buttonFunc={handleConfirm}
+                     />
+                  </div>
+               ) : null}
 
-            {isOptionConfirmed && selectedOption == "opt1" && data != null ? (
-               <RegisterAndReserveForm packages={data} />
-            ) : null}
+               {isOptionConfirmed &&
+               selectedOption == "opt1" &&
+               data != null ? (
+                  <RegisterAndReserveForm packages={data} />
+               ) : null}
 
-            {isOptionConfirmed && selectedOption == "opt2" ? (
-               <RegisterForm />
-            ) : null}
+               {isOptionConfirmed && selectedOption == "opt2" ? (
+                  <RegisterForm />
+               ) : null}
+            </div>
          </div>
-      </div>
+      </>
    );
 };
 
