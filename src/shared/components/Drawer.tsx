@@ -2,17 +2,12 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
-
-export interface DrawerOption {
-   label: string;
-   path: string;
-   isHash?: boolean;
-}
+import type { NavbarOption } from "./MainNavba";
 
 interface DrawerProps {
    isOpen: boolean;
    onClose: () => void;
-   options: DrawerOption[];
+   options: NavbarOption[];
 }
 
 export default function Drawer({ isOpen, onClose, options }: DrawerProps) {
@@ -68,7 +63,7 @@ export default function Drawer({ isOpen, onClose, options }: DrawerProps) {
    );
 }
 
-const getDrawerOption = (opt: DrawerOption, onClose: () => void) => {
+const getDrawerOption = (opt: NavbarOption, onClose: () => void) => {
    return !opt.isHash ? (
       <Link
          to={opt.path}

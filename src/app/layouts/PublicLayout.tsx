@@ -1,24 +1,26 @@
 import { Outlet } from "react-router-dom";
-import PublicNavbar from "../../shared/components/PublicNavbar";
+import MainNavbar, {
+   type NavbarOption,
+} from "../../shared/components/MainNavba";
 import { ROUTES } from "../constants/routes";
-import Drawer, { type DrawerOption } from "../../shared/components/Drawer";
+import Drawer from "../../shared/components/Drawer";
 import { useState } from "react";
 
 const PublicLayout = () => {
    const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
    const toggleDrawer = () => setDrawerOpen((open) => !open);
 
-   const options: DrawerOption[] = [
+   const options: NavbarOption[] = [
       { label: "Home", path: ROUTES.HOME },
       { label: "Cómo funciona", path: `${ROUTES.HOME}#how-work`, isHash: true },
       { label: "Reservar Sesión", path: ROUTES.SESSION.ROOT },
-      { label: "Login", path: ROUTES.AUTH.ROOT },
+      { label: "Acceder", path: ROUTES.AUTH.ROOT, buttonStyle: true },
    ];
 
    return (
       <>
          <header>
-            <PublicNavbar toggleDrawer={toggleDrawer} />
+            <MainNavbar navbarOptions={options} toggleDrawer={toggleDrawer} />
          </header>
 
          <main className="pt-[70px]">
