@@ -3,14 +3,14 @@ export const ROUTES = {
    AUTH: {
       ROOT: "/auth",
       LOGIN: "/login",
-      REGISTER: "/register",
    },
    CLIENT: {
       ROOT: "/client",
       CLIENTDASHBOARD: "/dashboard",
+      ACCOUNT: "/account",
    },
-   SESSION:{
-      ROOT:"/session",
-      RESERVE:"/reserve"
-   }
+   SESSION: {
+      ROOT: "/session",
+      RESERVE: "/reserve",
+   },
 };

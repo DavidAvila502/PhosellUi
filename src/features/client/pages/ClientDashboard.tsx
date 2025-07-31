@@ -13,7 +13,7 @@ export function ClientDashboard() {
    }, [succsess]);
 
    return (
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center min-h-[100vh]">
          <h1>CLIENT PROTECTED</h1>
          <button className="bg-blue-600" onClick={() => logout()}>
             Cerrar sesión
