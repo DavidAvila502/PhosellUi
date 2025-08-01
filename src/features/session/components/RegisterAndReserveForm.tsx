@@ -14,7 +14,7 @@ import {
 } from "../utils/DateUtils";
 import TimeSelector from "./TimeSelector";
 import ClassicButton from "../../../shared/components/ClassicButton";
-import type { SessionPackage } from "../../sessionPackage/models/package";
+import type { SessionPackage } from "../../sessionPackage/models/packageModels";
 import { splitBenefits } from "../utils/SessionPackageUtils";
 import StepsIndicator from "./StepsIndicator";
 import useGetAvailableSlots from "../hooks/useGetAvailableSlots";
@@ -26,7 +26,7 @@ import {
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import useRegisterClientAndSession from "../hooks/useRegisterClientAndSession";
 import useRedirectByRole from "../../../shared/hooks/useRedirectByRole";
-import type { Roles } from "../../auth/types/roles";
+import type { Role } from "../../auth/types/role";
 import { getApiErrorMessage } from "../../../shared/utils/apiCodeErrors";
 import type { AxiosError } from "axios";
 import type { ApiErrorResponseDTo } from "../../../shared/types";
@@ -162,7 +162,7 @@ const RegisterAndReserveForm = ({ packages }: RegisterAndReserveFormProps) => {
       }
    }, [slotsError, loginResponseError]);
 
-   useRedirectByRole(loginResponseData?.role as Roles);
+   useRedirectByRole(loginResponseData?.role as Role);
 
    return (
       <>

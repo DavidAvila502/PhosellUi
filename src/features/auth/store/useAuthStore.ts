@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { Roles } from "../types/roles";
+import type { Role } from "../types/role";
 
 interface AuthState {
    id: string | null;
    fullName: string | null;
    email: string | null;
-   role: Roles | null;
+   role: Role | null;
    jwtToken: string | null;
    expiresIn: number | null;
    setAuth: (data: {

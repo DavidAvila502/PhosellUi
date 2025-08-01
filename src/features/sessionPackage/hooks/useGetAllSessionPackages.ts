@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import type { SessionPackage } from "../models/package";
+import type { SessionPackage } from "../models/packageModels";
 import getAllSessionPackagesService from "../services/getAllSessionPackagesService";
 import { AxiosError } from "axios";
 import type { ApiErrorResponseDTo } from "../../../shared/types";

@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { ROUTES } from "../../../app/constants/routes";
-import type { Roles } from "../types/roles";
+import type { Role } from "../types/role";
 
-export function RequireAuth({ allowedRoles }: { allowedRoles: Roles[] }) {
+export function RequireAuth({ allowedRoles }: { allowedRoles: Role[] }) {
    const { jwtToken, role } = useAuthStore();
 
    if (!jwtToken) return <Navigate to={ROUTES.HOME} replace />;
