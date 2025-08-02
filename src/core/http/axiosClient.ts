@@ -134,20 +134,18 @@ const retryOriginalRequest = (
    return new Promise((resolve, reject) => {
       axiosClient
          .post<{
-            accessToken: string;
+            jwtToken: string;
             expiresIn: number;
          }>("/auth/refresh")
          .then(({ data }) => {
             setAuth({
                ...useAuthStore.getState(),
-               jwtToken: data.accessToken,
+               jwtToken: data.jwtToken,
                expiresIn: data.expiresIn,
             });
-            processQueue(null, data.accessToken);
+            processQueue(null, data.jwtToken);
 
-            originalReq.headers![
-               "Authorization"
-            ] = `Bearer ${data.accessToken}`;
+            originalReq.headers!["Authorization"] = `Bearer ${data.jwtToken}`;
             resolve(axiosClient(originalReq));
          })
          .catch((refreshError) => {
