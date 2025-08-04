@@ -34,7 +34,7 @@ const PrivateLayout = () => {
          </main>
 
          <footer>
-            <div className="bg-blue-900 mt-[40px] p-6">
+            <div className="bg-blue-900 p-6">
                <p className="text-center text-white text-xl max-sm:text-[15px] font-bold">
                   © 2025 TROPIX - Todos los derechos reservados.
                </p>
