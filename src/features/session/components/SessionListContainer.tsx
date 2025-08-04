@@ -6,9 +6,7 @@ interface SessionListContainerProps {
 
 const SessionListContainer = ({ children }: SessionListContainerProps) => {
    return (
-      <div className="w-full flex items-center justify-center gap-5">
-         {children}
-      </div>
+      <div className="w-full flex flex-wrap items-center gap-5">{children}</div>
    );
 };
 
