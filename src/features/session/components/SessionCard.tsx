@@ -8,9 +8,10 @@ import { formatRawTime } from "../utils/TimeUtils";
 
 interface SessionCardProps {
    session: Session;
+   openModal: () => void;
 }
 
-const SessionCard = ({ session }: SessionCardProps) => {
+const SessionCard = ({ session, openModal }: SessionCardProps) => {
    return (
       <div className="w-full rounded-[20px] bg-white h-[280px] border-1 border-gray-400">
          <div
@@ -50,6 +51,9 @@ const SessionCard = ({ session }: SessionCardProps) => {
 
             <div className="flex flex-row justify-end">
                <ClassicButton
+                  func={() => {
+                     openModal();
+                  }}
                   type="button"
                   text="Ver"
                   style="w-[100px]"
