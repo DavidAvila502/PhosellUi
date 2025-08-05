@@ -7,6 +7,7 @@ import {
 import type { Role } from "../../auth/types/role";
 import { formatRawTime } from "../utils/TimeUtils";
 import ClassicButton from "../../../shared/components/ClassicButton";
+import { ROLES } from "../../../app/constants/roles";
 
 interface SessionHandlerModalProps {
    isOpen: boolean;
@@ -19,6 +20,7 @@ const SessionHandlerModal = ({
    session,
    isOpen,
    closeModal,
+   role,
 }: SessionHandlerModalProps) => {
    useEffect(() => {
       document.body.style.overflow = isOpen ? "hidden" : "auto";
@@ -135,11 +137,13 @@ const SessionHandlerModal = ({
 
                {/* buttons */}
                <div className="flex flex-wrap w-full flex-row">
-                  <ClassicButton
-                     type="button"
-                     color="bg-red-400"
-                     text="Cancelar"
-                  />
+                  {role == ROLES.CLIENT ? (
+                     <ClassicButton
+                        type="button"
+                        color="bg-red-400"
+                        text="Cancelar"
+                     />
+                  ) : null}
                </div>
             </div>
          </div>
