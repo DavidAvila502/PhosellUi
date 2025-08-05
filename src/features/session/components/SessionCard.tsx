@@ -13,53 +13,46 @@ interface SessionCardProps {
 
 const SessionCard = ({ session, openModal }: SessionCardProps) => {
    return (
-      <div className="w-full rounded-[20px] bg-white h-[280px] border-1 border-gray-400">
-         <div
-            className={`p-5 rounded-tl-[20px] rounded-tr-[20px] flex flex-row justify-between ${getSessionStatusColor(
-               session.sessionStatus
-            )}`}
-         >
-            <p className="text-white font-bold truncate">
-               Fecha: {session.sessionDate}
-            </p>
+      <div
+         className="max-w-[380px] w-full h-[260px] bg-blue-900 border-2 border-gray-300 rounded-[10px]
+            p-[20px] max-sm:p-[10px] flex flex-col gap-3"
+      >
+         <p className="font-bold text-[25px] italic text-white">
+            {session.sessionDate}
+         </p>
 
-            <div className="bg-white rounded-2xl px-3 text-[17px] font-medium text-blue-400">
-               {getStringOfSessionSessionStatus(session.sessionStatus)}
+         <div className="flex flex-row gap-2 items-start justify-start">
+            <div className="inline-block bg-white rounded-2xl px-3 text-[19px] font-medium text-blue-400">
+               <p>{getStringOfSessionSessionStatus(session.sessionStatus)}</p>
             </div>
+
+            <div
+               className={`w-[30px] h-[30px] rounded-full ${getSessionStatusColor(
+                  session.sessionStatus
+               )}`}
+            ></div>
          </div>
 
-         <div className="flex flex-col gap-3 px-5 pt-2">
-            <div className="flex flex-row gap-3">
-               <p className="font-bold">Hora:</p>{" "}
-               <p className="truncate">{formatRawTime(session.sessionTime)}</p>
-            </div>
+         <div className="flex flex-row gap-2">
+            <p className="text-white text-[20px]">
+               {formatRawTime(session.sessionTime)}
+            </p>
+         </div>
 
-            <div className="flex flex-row gap-3">
-               <p className="font-bold">Lugar:</p>{" "}
-               <p className="truncate">{session.location}</p>
-            </div>
+         <p className="text-blue-200 font-bold truncate italic text-[20px]">
+            {session.client.fullName}
+         </p>
 
-            <div className="flex flex-row gap-3">
-               <p className="font-bold">Paquete:</p>{" "}
-               <p className="truncate">{`${session.sessionPackage.name} ($${session.sessionPackage.price} MXN)`}</p>
-            </div>
-
-            <div className="flex flex-row gap-3">
-               <p className="font-bold">Fotografo:</p>{" "}
-               <p className="truncate">{session.photographer.fullName}</p>
-            </div>
-
-            <div className="flex flex-row justify-end">
-               <ClassicButton
-                  func={() => {
-                     openModal();
-                  }}
-                  type="button"
-                  text="Ver"
-                  style="w-[100px]"
-                  color="bg-blue-400"
-               />
-            </div>
+         <div className="flex flex-row justify-end">
+            <ClassicButton
+               func={() => {
+                  openModal();
+               }}
+               type="button"
+               text="Ver"
+               style="w-[100px]"
+               color="bg-blue-400"
+            />
          </div>
       </div>
    );
