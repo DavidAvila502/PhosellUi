@@ -10,8 +10,12 @@ import { useAuthStore } from "../../auth/store/useAuthStore";
 export function ClientDashboard() {
    const { role } = useAuthStore();
 
-   const { clientSessionsData, clientSessionsDataError, getSessionsMeClient } =
-      useGetSessionsMeClient();
+   const {
+      clientSessionsData,
+      clientSessionsDataError,
+      clientSessionsDataLoading,
+      getSessionsMeClient,
+   } = useGetSessionsMeClient();
 
    const [isSessionModalOpen, setIsSessionModalOpen] = useState<boolean>(false);
    const [sessionModalData, setSessionModalData] = useState<Session | null>(
@@ -41,10 +45,17 @@ export function ClientDashboard() {
                      Mis Sesiones
                   </p>
 
+                  {clientSessionsDataLoading ? (
+                     <div className="w-full h-[400px] flex items-center justify-center">
+                        <span className="loading loading-spinner loading-xl text-primary"></span>
+                     </div>
+                  ) : null}
+
                   <SessionListContainer>
-                     {clientSessionsData == null ||
-                     clientSessionsData.content.length == 0 ? (
-                        <p>Parece que no tienes sesiones todavía</p>
+                     {!clientSessionsData && !clientSessionsDataLoading ? (
+                        <p className="text-[20px] font-bold text-gray-400">
+                           Parece que no tienes sesiones todavía
+                        </p>
                      ) : null}
                      {clientSessionsData?.content.map((s, index) => (
                         <React.Fragment key={index}>
