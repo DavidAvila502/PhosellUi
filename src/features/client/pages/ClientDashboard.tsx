@@ -6,6 +6,7 @@ import React from "react";
 import SessionHandlerModal from "../../session/components/SessionHandlerModal";
 import type { Session } from "../../session/models/sessionModels";
 import { useAuthStore } from "../../auth/store/useAuthStore";
+import SessionStatusFilter from "../../session/components/SessionStatusFilter";
 
 export function ClientDashboard() {
    const { role } = useAuthStore();
@@ -45,12 +46,17 @@ export function ClientDashboard() {
                      Mis Sesiones
                   </p>
 
+                  {/* Filters */}
+                  <SessionStatusFilter />
+
+                  {/* Loading */}
                   {clientSessionsDataLoading ? (
                      <div className="w-full h-[400px] flex items-center justify-center">
                         <span className="loading loading-spinner loading-xl text-primary"></span>
                      </div>
                   ) : null}
 
+                  {/* Session List */}
                   <SessionListContainer>
                      {!clientSessionsData && !clientSessionsDataLoading ? (
                         <p className="text-[20px] font-bold text-gray-400">
