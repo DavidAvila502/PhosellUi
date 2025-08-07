@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useGetSessionsMeClient from "../../session/hooks/useGetSessionsMeClient";
 import SessionListContainer from "../../session/components/SessionListContainer";
 import SessionCard from "../../session/components/SessionCard";
@@ -6,7 +6,10 @@ import React from "react";
 import SessionHandlerModal from "../../session/components/SessionHandlerModal";
 import type { Session } from "../../session/models/sessionModels";
 import { useAuthStore } from "../../auth/store/useAuthStore";
-import SessionStatusFilter from "../../session/components/SessionStatusFilter";
+import SessionStatusFilter, {
+   type ListStatusFIlterType,
+} from "../../session/components/SessionStatusFilter";
+import SessionTextFilter from "../../session/components/SessionTextFilter";
 
 export function ClientDashboard() {
    const { role } = useAuthStore();
@@ -22,6 +25,35 @@ export function ClientDashboard() {
    const [sessionModalData, setSessionModalData] = useState<Session | null>(
       null
    );
+
+   const [statusFilterSelected, setSatusFilterSelected] =
+      useState<ListStatusFIlterType>("ALL");
+
+   const [textFilterParam, setTextFilterParam] = useState<string>("");
+
+   const filteredSessions = useMemo(() => {
+      return clientSessionsData?.content.filter((sess) => {
+         if (
+            statusFilterSelected != "ALL" &&
+            sess.sessionStatus != statusFilterSelected
+         ) {
+            return false;
+         }
+
+         const lower = textFilterParam.trim().toLowerCase();
+         if (lower === "") {
+            return true;
+         }
+
+         return (
+            sess.client.fullName.toLowerCase().includes(lower) ||
+            sess.client.phone.includes(lower) ||
+            sess.photographer.fullName.toLowerCase().includes(lower) ||
+            sess.photographer.phone.includes(lower) ||
+            sess.location.toLowerCase().includes(lower)
+         );
+      });
+   }, [statusFilterSelected, textFilterParam, clientSessionsData]);
 
    useEffect(() => {
       getSessionsMeClient();
@@ -47,7 +79,18 @@ export function ClientDashboard() {
                   </p>
 
                   {/* Filters */}
-                  <SessionStatusFilter />
+
+                  <SessionTextFilter
+                     value={textFilterParam}
+                     setValue={setTextFilterParam}
+                  />
+
+                  <SessionStatusFilter
+                     selected={statusFilterSelected}
+                     setSelected={(param: ListStatusFIlterType) =>
+                        setSatusFilterSelected(param)
+                     }
+                  />
 
                   {/* Loading */}
                   {clientSessionsDataLoading ? (
@@ -63,7 +106,7 @@ export function ClientDashboard() {
                            Parece que no tienes sesiones todavía
                         </p>
                      ) : null}
-                     {clientSessionsData?.content.map((s, index) => (
+                     {filteredSessions?.map((s, index) => (
                         <React.Fragment key={index}>
                            <SessionCard
                               session={s}

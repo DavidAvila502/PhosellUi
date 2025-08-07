@@ -17,9 +17,10 @@ const StatusFilters: ListStatusFIlterType[] = [
 
 interface SessionStatusFiler {
    selected?: ListStatusFIlterType;
+   setSelected?: (param: ListStatusFIlterType) => void;
 }
 
-const SessionStatusFilter = ({ selected }: SessionStatusFiler) => {
+const SessionStatusFilter = ({ selected, setSelected }: SessionStatusFiler) => {
    return (
       <div
          className="flex flex-row gap-3 mb-[20px] border-b-1
@@ -27,7 +28,11 @@ const SessionStatusFilter = ({ selected }: SessionStatusFiler) => {
       >
          {StatusFilters.map((s, index) => (
             <React.Fragment key={index}>
-               <StatusFilterButton text={s} isActive={false} />
+               <StatusFilterButton
+                  text={s}
+                  isActive={selected == s}
+                  setSelected={setSelected}
+               />
             </React.Fragment>
          ))}
       </div>
@@ -37,13 +42,20 @@ const SessionStatusFilter = ({ selected }: SessionStatusFiler) => {
 const StatusFilterButton = ({
    text,
    isActive,
+   setSelected,
 }: {
    text: ListStatusFIlterType;
    isActive: boolean;
+   setSelected?: (param: ListStatusFIlterType) => void;
 }) => (
    <button
-      className="p-2 border-2 whitespace-nowrap border-blue-400 rounded-full
-        cursor-pointer text-gray-500"
+      onClick={() => (setSelected ? setSelected(text) : () => {})}
+      className={`p-2 border-2 whitespace-nowrap rounded-full
+        cursor-pointer ${
+           isActive
+              ? "bg-blue-500 text-white"
+              : "text-blue-400 border-blue-400 "
+        }`}
    >
       {text == "ALL" ? "Todo" : getStringOfSessionSessionStatus(text)}
    </button>
