@@ -35,3 +35,9 @@ export interface SessionPhotographerDto {
    fullName: string;
    phone: string;
 }
+
+export interface SessionsQueryParams {
+   page?: number;
+   size?: number;
+   sort?: string | string[];
+}

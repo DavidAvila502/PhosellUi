@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 interface SessionListContainerProps {
    children: ReactNode;
@@ -6,7 +6,9 @@ interface SessionListContainerProps {
 
 const SessionListContainer = ({ children }: SessionListContainerProps) => {
    return (
-      <div className="w-full flex flex-wrap items-center gap-5">{children}</div>
+      <>
+         <div className="w-full flex flex-wrap gap-5 h-[400px]">{children}</div>
+      </>
    );
 };
 

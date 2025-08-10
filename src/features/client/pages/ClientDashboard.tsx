@@ -10,9 +10,16 @@ import SessionStatusFilter, {
    type ListStatusFIlterType,
 } from "../../session/components/SessionStatusFilter";
 import SessionTextFilter from "../../session/components/SessionTextFilter";
+import type { SessionsQueryParams } from "../../session/dtos/sessionDtos";
+import PaginationHandler from "../../session/components/PaginationHandler";
 
 export function ClientDashboard() {
    const { role } = useAuthStore();
+
+   const [queryParams, setQueryParams] = useState<SessionsQueryParams>({
+      page: 0,
+      sort: "sessionDate,desc",
+   });
 
    const {
       clientSessionsData,
@@ -56,13 +63,16 @@ export function ClientDashboard() {
    }, [statusFilterSelected, textFilterParam, clientSessionsData]);
 
    useEffect(() => {
-      getSessionsMeClient();
-   }, [getSessionsMeClient]);
+      getSessionsMeClient(queryParams);
+   }, [getSessionsMeClient, queryParams]);
 
    useEffect(() => {
       if (clientSessionsDataError) console.warn(clientSessionsDataError);
    }, [clientSessionsDataError]);
 
+   useEffect(() => {
+      console.log(clientSessionsData);
+   }, [clientSessionsData]);
    return (
       <>
          <SessionHandlerModal
@@ -78,7 +88,7 @@ export function ClientDashboard() {
                      Mis Sesiones
                   </p>
 
-                  {/* Filters */}
+                  {/* Local Filters */}
 
                   <SessionTextFilter
                      value={textFilterParam}
@@ -118,6 +128,14 @@ export function ClientDashboard() {
                         </React.Fragment>
                      ))}
                   </SessionListContainer>
+
+                  <PaginationHandler
+                     currentPage={queryParams.page || 0}
+                     totalPages={clientSessionsData?.totalPages || 0}
+                     setCurrentPage={(newPage: number) =>
+                        setQueryParams({ ...queryParams, page: newPage })
+                     }
+                  />
                </div>
             </div>
          </div>

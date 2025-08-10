@@ -1,7 +1,10 @@
 import axiosClient from "../../../core/http/axiosClient";
 import type { PaginatedResponse } from "../../../shared/types";
 import type { LoginResponseDto } from "../../auth/dtos/authDtos";
-import type { SessionAndClientInsertDto } from "../dtos/sessionDtos";
+import type {
+   SessionAndClientInsertDto,
+   SessionsQueryParams,
+} from "../dtos/sessionDtos";
 import type { Session } from "../models/sessionModels";
 
 export const getAvailableSlots = async (date: string): Promise<string[]> => {
@@ -23,9 +26,11 @@ export const registerClientAndSession = async (
    return response.data as LoginResponseDto;
 };
 
-export const getSessionsMeClient = async (): Promise<
-   PaginatedResponse<Session>
-> => {
-   const response = await axiosClient.get("/sessions/client/me");
+export const getSessionsMeClient = async (
+   queryParams?: SessionsQueryParams
+): Promise<PaginatedResponse<Session>> => {
+   const response = await axiosClient.get("/sessions/client/me", {
+      params: queryParams,
+   });
    return response.data as PaginatedResponse<Session>;
 };
