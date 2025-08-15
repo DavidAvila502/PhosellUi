@@ -3,7 +3,6 @@ import useGetSessionsMeClient from "../../session/hooks/useGetSessionsMeClient";
 import SessionListContainer from "../../session/components/SessionListContainer";
 import SessionCard from "../../session/components/SessionCard";
 import React from "react";
-import SessionHandlerModal from "../../session/components/SessionHandlerModal";
 import type { Session } from "../../session/models/sessionModels";
 import { useAuthStore } from "../../auth/store/useAuthStore";
 import SessionStatusFilter, {
@@ -12,6 +11,9 @@ import SessionStatusFilter, {
 import SessionTextFilter from "../../session/components/SessionTextFilter";
 import type { SessionsQueryParams } from "../../session/dtos/sessionDtos";
 import PaginationHandler from "../../session/components/PaginationHandler";
+import CustomModal from "../../../shared/components/CustomModal";
+import SessionModalContent from "../../session/components/SessionModalContent";
+import CancelSessionModalContent from "../../session/components/CancelSessionModalContent";
 
 export function ClientDashboard() {
    const { role } = useAuthStore();
@@ -32,6 +34,8 @@ export function ClientDashboard() {
    const [sessionModalData, setSessionModalData] = useState<Session | null>(
       null
    );
+   const [isCancelSessionModalOpen, setIsCancelSessionModalOpen] =
+      useState<boolean>(false);
 
    const [statusFilterSelected, setSatusFilterSelected] =
       useState<ListStatusFIlterType>("ALL");
@@ -70,16 +74,27 @@ export function ClientDashboard() {
       if (clientSessionsDataError) console.warn(clientSessionsDataError);
    }, [clientSessionsDataError]);
 
-   useEffect(() => {
-      console.log(clientSessionsData);
-   }, [clientSessionsData]);
+   // useEffect(() => {
+   //    console.log(clientSessionsData);
+   // }, [clientSessionsData]);
    return (
       <>
-         <SessionHandlerModal
+         <CustomModal
             isOpen={isSessionModalOpen}
-            session={sessionModalData}
-            role={role}
-            closeModal={() => setIsSessionModalOpen(false)}
+            Onclose={() => setIsSessionModalOpen(false)}
+            children={
+               <SessionModalContent
+                  session={sessionModalData}
+                  role={role}
+                  onCancelSession={() => setIsCancelSessionModalOpen(true)}
+               />
+            }
+         />
+
+         <CustomModal
+            isOpen={isCancelSessionModalOpen}
+            Onclose={() => setIsCancelSessionModalOpen(false)}
+            children={<CancelSessionModalContent />}
          />
          <div className="flex flex-col items-center min-h-[100vh]">
             <div className="max-w-[1536px] w-full p-[20px]">
