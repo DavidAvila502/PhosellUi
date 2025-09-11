@@ -14,6 +14,7 @@ import PaginationHandler from "../../session/components/PaginationHandler";
 import CustomModal from "../../../shared/components/CustomModal";
 import SessionModalContent from "../../session/components/SessionModalContent";
 import CancelSessionModalContent from "../../session/components/CancelSessionModalContent";
+import { ToastContainer } from "react-toastify";
 
 export function ClientDashboard() {
    const { role } = useAuthStore();
@@ -79,6 +80,7 @@ export function ClientDashboard() {
    // }, [clientSessionsData]);
    return (
       <>
+         <ToastContainer />
          <CustomModal
             isOpen={isSessionModalOpen}
             Onclose={() => setIsSessionModalOpen(false)}
@@ -94,7 +96,18 @@ export function ClientDashboard() {
          <CustomModal
             isOpen={isCancelSessionModalOpen}
             Onclose={() => setIsCancelSessionModalOpen(false)}
-            children={<CancelSessionModalContent />}
+            children={
+               <CancelSessionModalContent
+                  sessionId={sessionModalData?.id || ""}
+                  onSuccess={() => {
+                     // Refresh the sessions list after successful cancellation
+                     getSessionsMeClient(queryParams);
+                     setIsCancelSessionModalOpen(false);
+                     setIsSessionModalOpen(false);
+                  }}
+                  onClose={() => setIsCancelSessionModalOpen(false)}
+               />
+            }
          />
          <div className="flex flex-col items-center min-h-[100vh]">
             <div className="max-w-[1536px] w-full p-[20px]">

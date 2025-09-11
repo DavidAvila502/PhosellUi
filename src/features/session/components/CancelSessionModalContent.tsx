@@ -1,15 +1,80 @@
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import ClassicButton from "../../../shared/components/ClassicButton";
 import TropixField from "../../../shared/components/TropixField";
+import useCancelSession from "../hooks/useCancelSession";
+import { toast, Bounce } from "react-toastify";
+import { getApiErrorMessage } from "../../../shared/utils/apiCodeErrors";
 
-const CancelSessionModalContent = () => {
+interface CancelSessionModalContentProps {
+   sessionId: string;
+   onSuccess?: () => void;
+   onClose?: () => void;
+}
+
+const CancelSessionModalContent = ({
+   sessionId,
+   onSuccess,
+   onClose,
+}: CancelSessionModalContentProps) => {
    const [cancelReason, setCancelReason] = useState<string>("");
+   const { isLoading, error, cancelSession } = useCancelSession();
 
-   const onCancelSubmit = (e: FormEvent) => {
+   const onCancelSubmit = async (e: FormEvent) => {
       e.preventDefault();
 
-      // TODO: make the logic here.
+      if (!cancelReason.trim()) {
+         toast.error("Por favor proporciona un motivo de cancelación", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+         });
+         return;
+      }
+
+      try {
+         await cancelSession(sessionId, cancelReason);
+         
+         toast.success("Sesión cancelada exitosamente", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+         });
+
+         onSuccess?.();
+         onClose?.();
+      } catch (err) {
+         // Error handling is done in the hook
+      }
    };
+
+   // Handle errors from the hook using useEffect
+   useEffect(() => {
+      if (error?.response?.data) {
+         toast.error(getApiErrorMessage(error.response.data.code), {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+         });
+      }
+   }, [error]);
 
    return (
       <div
@@ -35,7 +100,12 @@ const CancelSessionModalContent = () => {
                onChange={(e) => setCancelReason(e.target.value)}
             />
 
-            <ClassicButton type="submit" text="Aceptar" color="bg-blue-400" />
+            <ClassicButton 
+               type="submit" 
+               text={isLoading ? "Cancelando..." : "Aceptar"} 
+               color="bg-blue-400"
+               disabled={isLoading}
+            />
          </form>
       </div>
    );
