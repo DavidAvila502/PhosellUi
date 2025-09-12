@@ -54,9 +54,10 @@ const CancelSessionModalContent = ({
 
          onSuccess?.();
          onClose?.();
-      } catch (err) {
-         // Error handling is done in the hook
-      }
+             } catch (err) {
+                console.error("Error al cancelar sesión:", err);
+                // Error handling is done in the hook
+             }
    };
 
    // Handle errors from the hook using useEffect
@@ -100,12 +101,12 @@ const CancelSessionModalContent = ({
                onChange={(e) => setCancelReason(e.target.value)}
             />
 
-            <ClassicButton 
-               type="submit" 
-               text={isLoading ? "Cancelando..." : "Aceptar"} 
-               color="bg-blue-400"
-               disabled={isLoading}
-            />
+                   <ClassicButton 
+                      type="submit" 
+                      text={isLoading ? "Cancelando..." : "Aceptar"} 
+                      color="bg-blue-400"
+                      isLoading={isLoading}
+                   />
          </form>
       </div>
    );
