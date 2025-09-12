@@ -3,7 +3,7 @@ import { type LoginResponseDto } from "../../auth/dtos/authDtos";
 import type { RegisterAndReserveFormDto } from "../dtos/sessionDtos";
 import registerClientAndSessionService from "../services/registerClientAndSessionService";
 import { useAuthStore } from "../../auth/store/useAuthStore";
-import type { Roles } from "../../auth/types/roles";
+import type { Role } from "../../auth/types/role";
 import axios, { AxiosError } from "axios";
 import type { ApiErrorResponseDTo } from "../../../shared/types";
 
@@ -32,7 +32,7 @@ const useRegisterClientAndSession = () => {
                id: response.id,
                fullName: response.fullName,
                email: response.email,
-               role: response.role as Roles,
+               role: response.role as Role,
                jwtToken: response.jwtToken,
                expiresIn: response.expiresIn,
             });

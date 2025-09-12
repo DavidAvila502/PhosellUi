@@ -23,3 +23,21 @@ export interface SessionAndClientInsertDto {
    sessionTime: string;
    location: string;
 }
+
+export interface SessionClientDto {
+   id: string;
+   fullName: string;
+   phone: string;
+}
+
+export interface SessionPhotographerDto {
+   id: string;
+   fullName: string;
+   phone: string;
+}
+
+export interface SessionsQueryParams {
+   page?: number;
+   size?: number;
+   sort?: string | string[];
+}

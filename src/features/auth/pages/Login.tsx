@@ -4,7 +4,7 @@ import ClassicButton from "../../../shared/components/ClassicButton";
 import ClassicLabelField from "../../../shared/components/ClassicLabelField";
 import loginImage from "../assets/login_image.jpg";
 import useRedirectByRole from "../../../shared/hooks/useRedirectByRole";
-import type { Roles } from "../types/roles";
+import type { Role } from "../types/role";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { getApiErrorMessage } from "../../../shared/utils/apiCodeErrors";
@@ -50,7 +50,7 @@ export function Login() {
       }
    }, [error]);
 
-   useRedirectByRole(data?.role as Roles);
+   useRedirectByRole(data?.role as Role);
 
    return (
       <>

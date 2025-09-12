@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import type { LoginDto, LoginResponseDto } from "../dtos/authDtos";
 import { loginService } from "../services/loginService";
 import { useAuthStore } from "../store/useAuthStore";
-import type { Roles } from "../types/roles";
+import type { Role } from "../types/role";
 import { AxiosError } from "axios";
 import type { ApiErrorResponseDTo } from "../../../shared/types";
 import axios from "axios";
@@ -28,7 +28,7 @@ export const useLogin = () => {
                id: response.id,
                fullName: response.fullName,
                email: response.email,
-               role: response.role as Roles,
+               role: response.role as Role,
                jwtToken: response.jwtToken,
                expiresIn: response.expiresIn,
             });
