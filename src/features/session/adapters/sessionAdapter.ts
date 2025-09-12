@@ -34,3 +34,12 @@ export const getSessionsMeClient = async (
    });
    return response.data as PaginatedResponse<Session>;
 };
+
+export const cancelSession = async (
+   sessionId: string,
+   cancelReason: string
+): Promise<void> => {
+   await axiosClient.patch(`/sessions/${sessionId}/cancel`, {
+      cancelReason,
+   });
+};
