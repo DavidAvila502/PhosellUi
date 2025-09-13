@@ -105,12 +105,15 @@ const SessionModalContent = ({
          {/* buttons */}
          <div className="flex flex-wrap w-full flex-row">
             {role == ROLES.CLIENT || role == ROLES.PHOTOGRAPHER ? (
-               <ClassicButton
-                  func={onCancelSession}
-                  type="button"
-                  color="bg-red-400"
-                  text="Cancelar"
-               />
+               session?.sessionStatus !== "CANCELLED_BY_CLIENT" &&
+               session?.sessionStatus !== "CANCELLED_BY_ADMIN" ? (
+                  <ClassicButton
+                     func={onCancelSession}
+                     type="button"
+                     color="bg-red-400"
+                     text="Cancelar"
+                  />
+               ) : null
             ) : null}
          </div>
       </div>
